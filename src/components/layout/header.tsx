@@ -2,7 +2,6 @@
 
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
-import { motion, AnimatePresence } from "framer-motion"
 import { ShoppingCart, User, Menu, X, Zap, Search, ChevronRight, Plus, Minus, Trash2, Phone, ArrowRight } from "lucide-react"
 import Image from "next/image"
 import { supabase } from "@/lib/supabase"
@@ -125,26 +124,15 @@ export function Header() {
             </button>
 
             <button onClick={() => setIsCartSidebarOpen(true)} className="relative group">
-              <motion.div 
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-                className="h-12 w-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center transition-all group-hover:bg-primary group-hover:text-background"
-              >
+              <div className="h-12 w-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center transition-all group-hover:bg-primary group-hover:text-background active:scale-95">
                 <ShoppingCart className="h-5 w-5" />
-              </motion.div>
-              <AnimatePresence>
-                {totalItems > 0 && (
-                  <motion.span 
-                    initial={{ scale: 0, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    exit={{ scale: 0, opacity: 0 }}
-                    key="cart-badge"
-                    className="absolute -top-2 -right-2 h-6 w-6 bg-primary text-background text-xs font-bold rounded-full flex items-center justify-center border-2 border-background shadow-lg"
+              </div>
+              {totalItems > 0 && (
+                  <span className="absolute -top-2 -right-2 h-6 w-6 bg-primary text-background text-xs font-bold rounded-full flex items-center justify-center border-2 border-background shadow-lg"
                   >
                     {totalItems}
-                  </motion.span>
+                  </span>
                 )}
-              </AnimatePresence>
             </button>
 
             <div className="flex items-center gap-2">
@@ -183,35 +171,22 @@ export function Header() {
 
         {/* Shimmering Gold Divider (Only if scrolled) */}
         {isScrolled && (
-          <motion.div 
-            initial={{ scaleX: 0 }} 
-            animate={{ scaleX: 1 }} 
-            className="primary-line-h absolute bottom-0 left-0 opacity-20" 
-          />
+          <div className="primary-line-h absolute bottom-0 left-0 opacity-20" />
         )}
       </div>
       </header>
 
-      <AnimatePresence>
-        {isMobileMenuOpen && (
+      {isMobileMenuOpen && (
           <>
             {/* Mobile Backdrop */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
+            <div 
               onClick={() => setIsMobileMenuOpen(false)}
-              className="fixed inset-0 bg-background/80 backdrop-blur-xl z-[190]"
+              className="fixed inset-0 bg-background/80 backdrop-blur-xl z-[190] transition-opacity duration-200"
             />
             
             {/* Sidebar Content */}
-            <motion.div 
-              initial={{ x: "100%" }}
-              animate={{ x: 0 }}
-              exit={{ x: "100%" }}
-              transition={{ duration: 0.25, ease: "easeOut" }}
-              className="fixed inset-y-0 right-0 w-full sm:w-[450px] z-[200] bg-background/95 backdrop-blur-2xl border-l border-white/5 flex flex-col p-8 md:p-12 shadow-[-20px_0_50px_rgba(0,0,0,0.5)] overflow-y-auto"
+            <div 
+              className="fixed inset-y-0 right-0 w-full sm:w-[450px] z-[200] bg-background/95 backdrop-blur-2xl border-l border-white/5 flex flex-col p-8 md:p-12 shadow-[-20px_0_50px_rgba(0,0,0,0.5)] overflow-y-auto translate-x-0 transition-transform duration-200 ease-out"
             >
               <div className="absolute top-0 left-0 w-px h-full bg-gradient-to-b from-transparent via-primary/50 to-transparent" />
               <div className="flex items-center justify-between mb-12">
@@ -302,30 +277,21 @@ export function Header() {
                       <span className="text-xs font-black uppercase tracking-widest text-primary italic">v2.4.0</span>
                    </div>
                    <Link href="/politica-de-privacidade" className="text-xs font-black uppercase tracking-widest text-text-muted hover:text-white underline">Privacidade</Link>
-                </div>
-             </div>
-          </motion.div>
+</div>
+              </div>
+           </div>
         </>
       )}
-      </AnimatePresence>
 
       {/* Cart Sidebar */}
-      <AnimatePresence>
-        {isCartSidebarOpen && (
+      {isCartSidebarOpen && (
           <>
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
+            <div
               onClick={() => setIsCartSidebarOpen(false)}
-              className="fixed inset-0 bg-background/80 backdrop-blur-sm z-[100]"
+              className="fixed inset-0 bg-background/80 backdrop-blur-sm z-[100] transition-opacity duration-200"
             />
-            <motion.div
-              initial={{ x: "100%" }}
-              animate={{ x: 0 }}
-              exit={{ x: "100%" }}
-              transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="fixed inset-y-0 right-0 w-full sm:w-[400px] bg-surface border-l border-white/10 shadow-2xl z-[110] flex flex-col"
+            <div
+              className="fixed inset-y-0 right-0 w-full sm:w-[400px] bg-surface border-l border-white/10 shadow-2xl z-[110] flex flex-col translate-x-0 transition-transform duration-200 ease-out"
             >
               <div className="flex items-center justify-between p-6 border-b border-white/5">
                 <div className="flex items-center gap-3">
@@ -399,28 +365,19 @@ export function Header() {
                   </Link>
                 </div>
               )}
-            </motion.div>
+            </div>
           </>
         )}
-      </AnimatePresence>
 
       {/* Search Drawer */}
-      <AnimatePresence>
-        {isSearchDrawerOpen && (
+      {isSearchDrawerOpen && (
           <>
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
+            <div
               onClick={() => setIsSearchDrawerOpen(false)}
-              className="fixed inset-0 bg-background/90 backdrop-blur-md z-[200]"
+              className="fixed inset-0 bg-background/90 backdrop-blur-md z-[200] transition-opacity duration-200"
             />
-            <motion.div
-              initial={{ x: "100%" }}
-              animate={{ x: 0 }}
-              exit={{ x: "100%" }}
-              transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="fixed inset-y-0 right-0 w-full sm:w-[500px] z-[210] bg-[#0A0A0A] border-l border-white/10 flex flex-col p-8 md:p-16"
+            <div
+              className="fixed inset-y-0 right-0 w-full sm:w-[500px] z-[210] bg-[#0A0A0A] border-l border-white/10 flex flex-col p-8 md:p-16 translate-x-0 transition-transform duration-200 ease-out"
             >
               <div className="flex items-center justify-between mb-20">
                  <h2 className="text-3xl font-black uppercase tracking-tighter italic">Busca <span className="text-primary">Inteligente</span></h2>
@@ -468,12 +425,11 @@ export function Header() {
                         {tip}
                       </button>
                     ))}
-                 </div>
-              </div>
-            </motion.div>
+</div>
+               </div>
+            </div>
           </>
         )}
-      </AnimatePresence>
     </>
   )
 }
