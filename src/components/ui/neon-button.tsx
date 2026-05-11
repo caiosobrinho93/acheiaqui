@@ -11,7 +11,7 @@ interface NeonButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> 
 }
 
 export const NeonButton = React.forwardRef<HTMLButtonElement, NeonButtonProps>(
-  ({ className, variant = "primary", size = "md", asChild = false, ...props }, ref) => {
+  ({ className, variant = "primary", size = "md", asChild = false, children, ...props }, ref) => {
     const variants = {
       primary: "bg-primary text-background shadow-neon-soft hover:shadow-neon-strong active:scale-[0.96]",
       secondary: "bg-surface text-foreground border border-white/10 hover:border-primary/50 active:scale-[0.96]",
@@ -39,9 +39,11 @@ export const NeonButton = React.forwardRef<HTMLButtonElement, NeonButtonProps>(
         )}
         {...props}
       >
-        <div className="relative z-10 flex items-center justify-center gap-2 whitespace-nowrap">
-          {props.children}
-        </div>
+        {asChild ? children : (
+          <div className="relative z-10 flex items-center justify-center gap-2 whitespace-nowrap">
+            {children}
+          </div>
+        )}
         <div className="absolute inset-0 bg-white/20 opacity-0 md:group-hover:opacity-100 transition-opacity pointer-events-none" />
       </Comp>
     )

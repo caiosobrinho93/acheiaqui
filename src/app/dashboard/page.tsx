@@ -2,6 +2,7 @@
 
 import * as React from "react"
 import { useState, useEffect, useRef, useLayoutEffect } from "react"
+import { motion, AnimatePresence } from "framer-motion"
 import { DashboardHeader } from "@/components/layout/dashboard-header"
 import { NeonButton } from "@/components/ui/neon-button"
 import { supabase } from "@/lib/supabase"

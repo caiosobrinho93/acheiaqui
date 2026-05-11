@@ -53,7 +53,7 @@ export default function Home() {
         const [productsRes, categoriesRes, infoRes, testimonialsRes] = await Promise.all([
           supabase
             .from('products')
-            .select('id, name, slug, price, promo_price, main_image, category, rating')
+            .select('*')
             .not('name', 'is', null)
             .not('slug', 'is', null)
             .order('created_at', { ascending: false }),

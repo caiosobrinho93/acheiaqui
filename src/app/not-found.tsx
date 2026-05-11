@@ -21,12 +21,12 @@ export default function NotFound() {
           Parece que você se perdeu no ciberespaço. A página que você está procurando não existe ou foi movida.
         </p>
 
-        <NeonButton size="lg" asChild>
-          <Link href="/">
+        <Link href="/">
+          <NeonButton size="lg">
             <ArrowLeft className="mr-2 h-5 w-5" />
             Voltar para a Home
-          </Link>
-        </NeonButton>
+          </NeonButton>
+        </Link>
       </div>
     </main>
   )

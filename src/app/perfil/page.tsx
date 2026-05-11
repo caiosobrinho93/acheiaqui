@@ -2,6 +2,7 @@
 
 import Image from "next/image"
 import { useState, useEffect, Suspense } from "react"
+import { motion, AnimatePresence } from "framer-motion"
 import { useSearchParams, useRouter } from "next/navigation"
 import { Header } from "@/components/layout/header"
 import { ProductCard } from "@/components/ui/product-card"
