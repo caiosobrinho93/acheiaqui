@@ -285,7 +285,7 @@ function ProfileContent() {
 
         {/* content Tabs */}
         <div className="flex flex-col gap-10">
-          <div className="flex items-center justify-center gap-1 bg-surface/50 backdrop-blur-xl p-1 rounded-2xl border border-white/5 w-fit mx-auto">
+          <div className="flex items-center justify-center gap-1 bg-surface/50 backdrop-blur-xl p-1 rounded-2xl border border-white/5 w-full max-w-md mx-auto">
             {[
               { id: 'posts', label: 'PEDIDOS', icon: Grid },
               { id: 'wishlist', label: 'FAVORITOS', icon: Bookmark },
@@ -295,7 +295,7 @@ function ProfileContent() {
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
                 className={cn(
-                  "flex items-center gap-2 px-6 py-3 rounded-xl transition-all font-bold text-[10px] uppercase tracking-widest",
+                  "flex-1 flex items-center justify-center gap-2 px-3 sm:px-6 py-3 rounded-xl transition-all font-bold text-[9px] sm:text-[10px] uppercase tracking-widest min-w-fit",
                   activeTab === tab.id 
                     ? "bg-primary text-background shadow-neon-soft" 
                     : "text-text-muted hover:text-foreground hover:bg-white/5"

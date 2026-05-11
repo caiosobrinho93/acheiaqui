@@ -72,23 +72,23 @@ export function Header() {
         <div className="flex items-center justify-between">
           
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-4 group relative">
-            <div className="relative h-12 w-12 rounded-2xl bg-gradient-to-tr from-primary via-primary/50 to-primary p-[2px] shadow-neon-soft transition-all duration-500 group-hover:scale-110 group-hover:rotate-6">
-              <div className="h-full w-full rounded-[14px] bg-background p-1.5 flex items-center justify-center overflow-hidden">
+          <Link href="/" className="flex items-center gap-2 sm:gap-3 md:gap-4 group relative">
+            <div className="relative h-10 w-10 sm:h-12 sm:w-12 rounded-2xl bg-gradient-to-tr from-primary via-primary/50 to-primary p-[2px] shadow-neon-soft transition-all duration-500 group-hover:scale-110 group-hover:rotate-6">
+              <div className="h-full w-full rounded-[14px] bg-background p-1 flex sm:p-1.5 flex items-center justify-center overflow-hidden">
                 <Image 
                   src="/images/logo.png" 
                   alt="AcheiAqui Logo" 
-                  width={40} 
-                  height={40} 
-                  className="object-contain"
+                  width={36} 
+                  height={36}
+                  className="object-contain w-full h-full"
                 />
               </div>
             </div>
             <div className="flex flex-col">
-              <span className="font-bold text-2xl tracking-tighter uppercase leading-none italic bg-clip-text text-transparent bg-gradient-to-r from-white via-white to-primary/80">
+              <span className="font-bold text-lg sm:text-xl md:text-2xl tracking-tighter uppercase leading-none italic bg-clip-text text-transparent bg-gradient-to-r from-white via-white to-primary/80">
                 ACHEI<span className="text-primary">AQUI</span>
               </span>
-              <span className="text-xs font-bold text-primary uppercase tracking-[0.4em] leading-none mt-1.5 transition-all group-hover:tracking-[0.5em] italic">
+              <span className="text-[8px] sm:text-[10px] font-bold text-primary uppercase tracking-[0.3em] sm:tracking-[0.4em] leading-none mt-0.5 sm:mt-1.5 transition-all group-hover:tracking-[0.5em] italic">
                 Encontrou, Levou.
               </span>
             </div>
@@ -200,22 +200,23 @@ export function Header() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
               onClick={() => setIsMobileMenuOpen(false)}
               className="fixed inset-0 bg-background/80 backdrop-blur-xl z-[190]"
             />
             
             {/* Sidebar Content */}
             <motion.div 
-              initial={{ x: "100%" }}
-              animate={{ x: 0 }}
-              exit={{ x: "100%" }}
-              transition={{ type: "spring", damping: 25, stiffness: 200 }}
+              initial={{ x: "100%", opacity: 0.5 }}
+              animate={{ x: 0, opacity: 1 }}
+              exit={{ x: "100%", opacity: 0.5 }}
+              transition={{ type: "spring", damping: 30, stiffness: 300, mass: 0.8 }}
               className="fixed inset-y-0 right-0 w-full sm:w-[450px] z-[200] bg-background/95 backdrop-blur-2xl border-l border-white/5 flex flex-col p-8 md:p-12 shadow-[-20px_0_50px_rgba(0,0,0,0.5)] overflow-y-auto"
             >
               <div className="absolute top-0 left-0 w-px h-full bg-gradient-to-b from-transparent via-primary/50 to-transparent" />
               <div className="flex items-center justify-between mb-12">
                 <div className="flex items-center gap-3">
-                  <div className="h-10 w-10 rounded-xl bg-primary flex items-center justify-center overflow-hidden p-1">
+                  <div className="h-10 w-10 rounded-full bg-surface flex items-center justify-center overflow-hidden p-1 border border-white/10">
                     <Image src="/images/logo.png" alt="Logo" width={32} height={32} className="object-contain" />
                   </div>
                   <span className="font-bold text-xl tracking-tighter uppercase italic">ACHEI<span className="text-primary">AQUI</span></span>

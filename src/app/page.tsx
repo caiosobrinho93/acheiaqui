@@ -10,7 +10,8 @@ import { ProductCard } from "@/components/ui/product-card";
 import { NeonButton } from "@/components/ui/neon-button";
 import { toast } from "sonner";
 import { ProductCardSkeleton } from "@/components/ui/skeleton";
-import { MotionContainer, MotionItem } from "@/components/ui/motion-container";
+import { MotionContainer, MotionItem } from "@/components/ui/motion-container"
+import { IntroScreen } from "@/components/ui/intro-screen";
 import { supabase, type Product, type Category } from "@/lib/supabase";
 import { 
   ArrowRight, 
@@ -123,6 +124,7 @@ export default function Home() {
 
   return (
     <main className="flex min-h-screen flex-col bg-background">
+      <IntroScreen isLoading={loading} />
       <Header />
       
       <HeroSlider />
@@ -250,23 +252,23 @@ export default function Home() {
                 fill 
                 className="object-cover transition-transform duration-[3000ms] group-hover:scale-105"
               />
-              <div className="absolute inset-0 bg-gradient-to-r from-background via-background/60 to-transparent p-8 md:p-24 flex flex-col justify-center">
-                 <div>
-                   <span className="text-primary font-black uppercase tracking-[0.5em] text-xs mb-4 block">Linha de Elite</span>
-                   <h3 className="text-6xl md:text-[9rem] font-black text-white tracking-tighter leading-[0.8] mb-8 uppercase italic">
-                     SETUP <br /> 
-                     <span className="text-primary not-italic">MASTER.</span>
-                   </h3>
-                   <p className="text-sm md:text-xl text-text-muted font-bold uppercase tracking-widest mb-10 max-w-xl leading-relaxed italic">
-                     A engenharia definitiva para quem busca a <span className="text-white">supremacia digital.</span> Prepare o terreno para a vitória.
-                   </p>
-                   <Link href="/loja?cat=Setup Master">
-                    <NeonButton size="sm" className="h-11 px-8 rounded-xl text-[10px] font-black uppercase tracking-[0.2em] shadow-lg">
-                      Ver Segmento
-                    </NeonButton>
-                   </Link>
-                 </div>
-              </div>
+<div className="absolute inset-0 bg-gradient-to-r from-background via-background/60 to-transparent p-6 md:p-24 flex flex-col justify-center">
+                  <div>
+                    <span className="text-primary font-black uppercase tracking-[0.5em] text-xs mb-2 md:mb-4 block">Linha de Elite</span>
+                    <h3 className="text-4xl sm:text-5xl md:text-7xl lg:text-[9rem] font-black text-white tracking-tighter leading-[0.8] mb-4 md:mb-8 uppercase italic">
+                      SETUP <br /> 
+                      <span className="text-primary not-italic">MASTER.</span>
+                    </h3>
+                    <p className="text-xs md:text-xl text-text-muted font-bold uppercase tracking-widest mb-6 md:mb-10 max-w-xl leading-relaxed italic">
+                      A engenharia definitiva para quem busca a <span className="text-white">supremacia digital.</span> Prepare o terreno para a vitória.
+                    </p>
+                    <Link href="/loja?cat=Setup Master">
+                     <NeonButton size="sm" className="h-11 px-8 rounded-xl text-[10px] font-black uppercase tracking-[0.2em] shadow-lg">
+                       Ver Segmento
+                     </NeonButton>
+                    </Link>
+                  </div>
+               </div>
               
               {/* Technical HUD Overlay */}
               <div className="absolute top-8 right-8 text-primary/40 hidden md:block">
@@ -344,7 +346,7 @@ export default function Home() {
                  </div>
                  <span className="text-sm font-medium tracking-widest text-primary/80 uppercase">Drops Exclusivos</span>
               </div>
-              <h2 className="text-7xl md:text-[10rem] font-semibold tracking-tighter leading-[0.85] mb-4 drop-shadow-[0_0_30px_rgba(var(--primary-rgb),0.3)]">
+              <h2 className="text-4xl sm:text-5xl md:text-7xl lg:text-[10rem] font-semibold tracking-tighter leading-[0.85] mb-4 drop-shadow-[0_0_30px_rgba(var(--primary-rgb),0.3)]">
                 DESCONTÃO <br />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-orange-500 to-red-600">ACHEIAQUI.</span>
               </h2>

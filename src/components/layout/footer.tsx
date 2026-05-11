@@ -9,11 +9,11 @@ export function Footer() {
         <div className="grid grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-16 mb-24">
           {/* Brand */}
           <div className="flex flex-col gap-8">
-            <Link href="/" className="flex items-center gap-4 group">
-              <div className="h-14 w-14 rounded-2xl bg-primary flex items-center justify-center p-1.5 overflow-hidden transition-all group-hover:scale-110 shadow-neon-soft">
-                <Image src="/images/logo.png" alt="AcheiAqui" width={48} height={48} className="object-contain" />
+            <Link href="/" className="flex items-center gap-3 group">
+              <div className="h-12 w-12 rounded-full bg-surface flex items-center justify-center p-1 overflow-hidden transition-all group-hover:scale-105 border border-white/10">
+                <Image src="/images/logo.png" alt="AcheiAqui" width={40} height={40} className="object-contain" />
               </div>
-              <span className="text-3xl font-black tracking-tighter uppercase italic">ACHEI<span className="text-primary">AQUI</span></span>
+              <span className="text-2xl font-black tracking-tighter uppercase italic">ACHEI<span className="text-primary">AQUI</span></span>
             </Link>
             <p className="text-text-secondary text-lg font-medium leading-relaxed max-w-xs">
               Sua curadoria premium. Encontrou o melhor, levou com segurança.
