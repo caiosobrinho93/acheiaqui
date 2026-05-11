@@ -140,15 +140,14 @@ export default function Home() {
            <div className="h-px flex-1 mx-8 bg-gradient-to-r from-primary/30 via-primary/5 to-transparent" />
         </div>
 
-        <div className="relative">
-          <div className="flex items-center gap-6 animate-marquee whitespace-nowrap px-6">
-            {[...displayCategories, ...displayCategories].map((cat, idx) => (
+<div className="relative">
+          <div className="flex items-center gap-4 overflow-x-auto pb-4 scrollbar-hide px-6 snap-x">
+            {displayCategories.map((cat, idx) => (
               <Link 
                 key={idx} 
                 href={`/loja?cat=${cat.name}`} 
-                className="group relative flex items-center w-[280px] h-24 bg-surface/40 backdrop-blur-md border border-white/5 rounded-2xl transition-all duration-500 hover:border-primary/40 hover:bg-surface/60 hover:shadow-[0_0_40px_rgba(198,255,0,0.1)] shrink-0 overflow-hidden"
+                className="group relative flex items-center w-[240px] sm:w-[280px] h-20 sm:h-24 bg-surface/40 backdrop-blur-md border border-white/5 rounded-2xl transition-all duration-500 hover:border-primary/40 hover:bg-surface/60 hover:shadow-[0_0_40px_rgba(198,255,0,0.1)] shrink-0 overflow-hidden snap-center"
               >
-                {/* Diagonal Image Container - Full Cover Style */}
                 <div className="absolute left-0 top-0 h-full w-[42%] overflow-hidden z-0" style={{ clipPath: 'polygon(0 0, 85% 0, 100% 100%, 0% 100%)' }}>
                    <Image 
                      src={cat.image_url} 
@@ -160,15 +159,13 @@ export default function Home() {
                    <div className="absolute inset-0 bg-primary/5 group-hover:bg-transparent transition-colors duration-500" />
                 </div>
 
-                {/* Text Section */}
-                <div className="relative z-10 ml-[45%] pr-6 flex flex-col justify-center h-full">
-                  <span className="text-[11px] font-black tracking-[0.15em] uppercase text-text-secondary group-hover:text-primary transition-colors whitespace-normal break-words leading-[1.1] max-w-[130px]">
-                    {cat.name}
-                  </span>
-                  <div className="h-0.5 w-0 bg-primary mt-2 group-hover:w-12 transition-all duration-500 rounded-full shadow-[0_0_10px_rgba(198,255,0,0.5)]" />
+                <div className="relative z-10 ml-[45%] pr-4 sm:pr-6 flex flex-col justify-center h-full">
+                   <span className="text-[10px] sm:text-[11px] font-black tracking-[0.15em] uppercase text-text-secondary group-hover:text-primary transition-colors whitespace-normal break-words leading-[1.1] max-w-[120px]">
+                     {cat.name}
+                   </span>
+                   <div className="h-0.5 w-0 bg-primary mt-2 group-hover:w-12 transition-all duration-500 rounded-full shadow-[0_0_10px_rgba(198,255,0,0.5)]" />
                 </div>
 
-                {/* Technical Corner Decoration */}
                 <div className="absolute top-2 right-2 opacity-20 group-hover:opacity-100 transition-opacity">
                    <div className="w-2 h-2 border-t border-r border-primary" />
                 </div>
@@ -176,30 +173,6 @@ export default function Home() {
             ))}
           </div>
         </div>
-
-        <style jsx global>{`
-          @keyframes marquee {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-          }
-          @keyframes marquee-reverse {
-            0% { transform: translateX(-50%); }
-            100% { transform: translateX(0); }
-          }
-          .animate-marquee {
-            display: flex;
-            width: fit-content;
-            animation: marquee 40s linear infinite;
-          }
-          .animate-marquee-reverse {
-            display: flex;
-            width: fit-content;
-            animation: marquee-reverse 50s linear infinite;
-          }
-          .animate-marquee:hover, .animate-marquee-reverse:hover {
-            animation-play-state: paused;
-          }
-        `}</style>
       </section>
 
       {/* SECTION 1: ACABARAM DE CHEGAR */}
@@ -465,10 +438,10 @@ export default function Home() {
            </div>
 
             <div className="relative overflow-hidden group py-12">
-              <div className="flex animate-marquee-reverse hover:[animation-play-state:paused] gap-8">
+              <div className="flex overflow-x-auto gap-8 pb-4 scrollbar-hide snap-x">
                 {[...homeTestimonials, ...homeTestimonials, ...homeTestimonials].length > 0 ? (
                   [...homeTestimonials, ...homeTestimonials, ...homeTestimonials].map((review, i) => (
-                    <div key={i} className="min-w-[320px] md:min-w-[480px] p-10 rounded-[3rem] bg-surface/30 backdrop-blur-md border border-white/5 relative group/card hover:border-primary/40 transition-all duration-500 shadow-2xl flex flex-col gap-6">
+                    <div key={i} className="min-w-[300px] md:min-w-[400px] lg:min-w-[480px] p-8 md:p-10 rounded-[2rem] md:rounded-[3rem] bg-surface/30 backdrop-blur-md border border-white/5 relative group/card hover:border-primary/40 transition-all duration-500 shadow-2xl flex flex-col gap-6 snap-center">
                       <div className="flex items-center justify-between">
                         <div className="flex gap-1.5 text-primary">
                           {Array.from({ length: 5 }).map((_, i) => (
@@ -494,9 +467,8 @@ export default function Home() {
                     </div>
                   ))
                 ) : (
-                  // Fallback Testimonials if DB is empty
                   Array.from({ length: 6 }).map((_, i) => (
-                    <div key={i} className="min-w-[320px] md:min-w-[480px] p-10 rounded-[3rem] bg-surface/30 border border-white/5 flex flex-col gap-6 opacity-40">
+                    <div key={i} className="min-w-[300px] md:min-w-[400px] lg:min-w-[480px] p-8 md:p-10 rounded-[2rem] md:rounded-[3rem] bg-surface/30 border border-white/5 flex flex-col gap-6 opacity-40 snap-center">
                       <div className="flex gap-1.5 text-primary">
                         {Array.from({ length: 5 }).map((_, i) => <Star key={i} className="h-4 w-4 fill-current" />)}
                       </div>
