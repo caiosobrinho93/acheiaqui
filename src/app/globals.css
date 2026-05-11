@@ -1,26 +1,227 @@
 @import "tailwindcss";
+@plugin "../../node_modules/tailwindcss-animate";
+
+@custom-variant dark (&:is(.dark *));
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Refined Palette: Slightly lighter and more premium */
+  --background: #0D0D0D;
+  --foreground: #F5F5F5;
+  
+  --card: #161616;
+  --card-foreground: #F5F5F5;
+  
+  --popover: #161616;
+  --popover-foreground: #F5F5F5;
+  
+  --primary: #C6FF00; /* Flash Green */
+  --primary-foreground: #0A0A0A;
+  
+  --secondary: #1F1F1F;
+  --secondary-foreground: #F5F5F5;
+  
+  --muted: #1F1F1F;
+  --muted-foreground: #888888;
+  
+  --accent: #EAB308; /* Gold Accent */
+  --accent-foreground: #0A0A0A;
+  
+  --destructive: #EF4444;
+  --destructive-foreground: #ffffff;
+  
+  --border: rgba(255, 255, 255, 0.08);
+  --input: rgba(255, 255, 255, 0.08);
+  --ring: #C6FF00;
+  --radius: 1.5rem;
+  
+  /* Custom Marketplace Variables */
+  --surface: #121212;
+  --surface-hover: #1A1A1A;
+  --accent-cyan: #00D1FF;
+  --text-secondary: #A1A1AA;
+  --text-muted: #71717A;
+  --success: #22C55E;
+  --warning: #F59E0B;
+  --performance: #00FF95;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  
+  /* Custom Marketplace Colors */
+  --color-surface: var(--surface);
+  --color-surface-hover: var(--surface-hover);
+  --color-accent-cyan: var(--accent-cyan);
+  --color-accent-gold: var(--accent-gold);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  --font-sans: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
+  --font-heading: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
+
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-card: 10px;
+  --radius-button: 12px;
+  --radius-input: 12px;
+
+  --shadow-neon-soft: 0 0 20px rgba(198,255,0,0.15);
+  --shadow-neon-strong: 0 0 40px rgba(198,255,0,0.25);
+  --shadow-glass: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+
+  --animate-marquee: marquee 50s linear infinite;
+  --animate-marquee-reverse: marquee-reverse 50s linear infinite;
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(calc(-100% - 1.5rem)); }
+  }
+  @keyframes marquee-reverse {
+    from { transform: translateX(calc(-100% - 1.5rem)); }
+    to { transform: translateX(0); }
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer base {
+  * {
+    @apply border-border;
+    outline: none !important;
+  }
+  body {
+    @apply bg-background text-foreground font-sans antialiased selection:bg-primary selection:text-background;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-semibold tracking-tight;
+  }
+  
+  /* Specifically for labels that were previously font-black */
+  .font-black.text-\[9px\], .font-black.text-\[10px\], .font-black.text-\[11px\], .font-black.text-xs,
+  .font-bold.text-\[9px\], .font-bold.text-\[10px\], .font-bold.text-\[11px\], .font-bold.text-xs {
+    font-weight: 500 !important;
+  }
+}
+
+/* Glassmorphism utility */
+.glass {
+  @apply bg-surface/40 backdrop-blur-md border border-white/10;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  @apply bg-background;
+}
+::-webkit-scrollbar-thumb {
+  @apply bg-white/10 rounded-full hover:bg-primary/50 transition-colors;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.primary-line-h {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--primary), transparent);
+  animation: shimmer 3s infinite;
+}
+
+@keyframes shimmer {
+  0% { opacity: 0.1; }
+  50% { opacity: 0.5; }
+  100% { opacity: 0.1; }
+}
+
+/* AGGRESSIVE GAMING UTILITIES */
+.neon-border-green {
+  box-shadow: 0 0 15px rgba(198, 255, 0, 0.3), inset 0 0 10px rgba(198, 255, 0, 0.1);
+  border: 1px solid rgba(198, 255, 0, 0.5);
+}
+
+.neon-border-cyan {
+  box-shadow: 0 0 15px rgba(0, 247, 255, 0.3), inset 0 0 10px rgba(0, 247, 255, 0.1);
+  border: 1px solid rgba(0, 247, 255, 0.5);
+}
+
+.neon-border-pink {
+  box-shadow: 0 0 15px rgba(255, 0, 229, 0.3), inset 0 0 10px rgba(255, 0, 229, 0.1);
+  border: 1px solid rgba(255, 0, 229, 0.5);
+}
+
+.premium-card, .gaming-card {
+  @apply bg-surface/40 backdrop-blur-md border border-white/5 hover:border-primary/20 transition-all duration-500 shadow-xl overflow-hidden rounded-[10px];
+}
+
+.gaming-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+  transition: 0.5s;
+}
+
+.gaming-card:hover::after {
+  left: 100%;
+}
+
+/* Animations */
+@keyframes cyber-pulse {
+  0% { box-shadow: 0 0 5px rgba(198, 255, 0, 0.2); }
+  50% { box-shadow: 0 0 20px rgba(198, 255, 0, 0.5); }
+  100% { box-shadow: 0 0 5px rgba(198, 255, 0, 0.2); }
+}
+
+.animate-cyber-pulse {
+  animation: cyber-pulse 2s infinite;
+}
+
+@keyframes scanline {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
+}
+
+.scanline {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(to bottom, transparent, rgba(198, 255, 0, 0.02), transparent);
+  animation: scanline 12s linear infinite;
+  pointer-events: none;
+}
+
+.bg-grid-tech {
+  background-image: 
+    linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+  background-size: 50px 50px;
 }
