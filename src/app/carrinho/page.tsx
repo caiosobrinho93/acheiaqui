@@ -110,7 +110,7 @@ export default function CartPage() {
                         <button onClick={() => updateQuantity(item.id, item.quantity + 1)} className="h-7 w-7 md:h-8 md:w-8 flex items-center justify-center hover:text-primary transition-colors"><Plus className="h-3 w-3" /></button>
                       </div>
                       <span className="text-base md:text-xl font-black text-foreground italic tracking-tighter">
-                        R$ {(item.price * item.quantity).toLocaleString('pt-BR', { minimumDigits: 0 })}
+                        R$ {(item.price * item.quantity).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
                       </span>
                     </div>
                   </div>
