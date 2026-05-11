@@ -1,9 +1,10 @@
 "use client"
 
 import Image from "next/image"
-import { useState, useEffect } from "react"
+import { useState, useEffect, Suspense } from "react"
 import { useSearchParams, useRouter } from "next/navigation"
 import { Header } from "@/components/layout/header"
+import { ProductCard } from "@/components/ui/product-card"
 import { NeonButton } from "@/components/ui/neon-button"
 import { supabase } from "@/lib/supabase"
 import { toast } from "sonner"
@@ -32,7 +33,7 @@ import { cn, getLevelInfo } from "@/lib/utils"
 import { motion, AnimatePresence } from "framer-motion"
 import { useWishlist } from "@/lib/store"
 
-export default function ProfilePage() {
+function ProfileContent() {
   const [user, setUser] = useState<any>(null)
   const [profile, setProfile] = useState<any>(null)
   const [orders, setOrders] = useState<any[]>([])
@@ -519,5 +520,17 @@ export default function ProfilePage() {
         </div>
       </div>
     </main>
+  )
+}
+
+export default function ProfilePage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <Loader2 className="h-12 w-12 text-primary animate-spin" />
+      </div>
+    }>
+      <ProfileContent />
+    </Suspense>
   )
 }

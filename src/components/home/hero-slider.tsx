@@ -49,12 +49,13 @@ export function HeroSlider() {
     return () => clearInterval(timer)
   }, [paginate])
 
-  const slideVariants = {
+  const slideVariants: import("framer-motion").Variants = {
     initial: (direction: number) => ({
       x: direction > 0 ? 30 : -30,
       opacity: 0
     }),
     animate: {
+      z: 0,
       x: 0,
       opacity: 1,
       transition: { duration: 0.5, ease: "easeOut" }

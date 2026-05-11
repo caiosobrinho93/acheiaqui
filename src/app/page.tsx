@@ -410,7 +410,8 @@ export default function Home() {
 
            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
               {infoCards.map((card, idx) => {
-                const IconComponent = { Zap, ShieldCheck, Trophy }[card.icon] || Zap;
+                const icons: Record<string, any> = { Zap, ShieldCheck, Trophy };
+                const IconComponent = icons[card.icon] || Zap;
                 return (
                   <div 
                     key={idx} 

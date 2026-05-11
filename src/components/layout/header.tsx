@@ -1,9 +1,9 @@
 "use client"
 
 import Link from "next/link"
-import { usePathname } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
-import { ShoppingCart, User, Menu, X, Zap, Search, ChevronRight, Plus, Minus, Trash2, Phone } from "lucide-react"
+import { ShoppingCart, User, Menu, X, Zap, Search, ChevronRight, Plus, Minus, Trash2, Phone, ArrowRight } from "lucide-react"
 import Image from "next/image"
 import { supabase } from "@/lib/supabase"
 import { useState, useEffect, useLayoutEffect } from "react"
@@ -20,11 +20,12 @@ export function Header() {
   const [searchQuery, setSearchQuery] = useState("")
   const [isCartSidebarOpen, setIsCartSidebarOpen] = useState(false)
   const pathname = usePathname()
+  const router = useRouter()
   const { items, updateQuantity, removeItem } = useCart()
   const [user, setUser] = useState<any>(null)
   
   const totalItems = items.reduce((acc, item) => acc + item.quantity, 0)
-  const subtotal = items.reduce((acc, item) => acc + (item.promo_price || item.price) * item.quantity, 0)
+  const subtotal = items.reduce((acc, item) => acc + item.price * item.quantity, 0)
   const isHomePage = pathname === "/"
 
   useLayoutEffect(() => {
@@ -348,11 +349,11 @@ export function Header() {
                   items.map((item) => (
                     <div key={item.id} className="flex gap-4 p-4 rounded-2xl bg-white/5 border border-white/5 relative group">
                       <div className="h-20 w-20 relative rounded-xl overflow-hidden shrink-0 bg-background">
-                        <Image src={item.main_image} alt={item.name} fill className="object-cover" />
+                        <Image src={item.image_url} alt={item.name} fill className="object-cover" />
                       </div>
                       <div className="flex flex-col flex-1">
                         <h4 className="text-sm font-bold uppercase tracking-tight line-clamp-1">{item.name}</h4>
-                        <span className="text-xs font-semibold text-primary mb-2">R$ {(item.promo_price || item.price).toLocaleString('pt-BR')}</span>
+                        <span className="text-xs font-semibold text-primary mb-2">R$ {item.price.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</span>
                         
                         <div className="flex items-center gap-3 mt-auto">
                           <button

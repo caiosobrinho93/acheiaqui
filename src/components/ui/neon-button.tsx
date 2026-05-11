@@ -45,14 +45,14 @@ export const NeonButton = React.forwardRef<HTMLButtonElement, NeonButtonProps>(
 
     if (asChild) {
       return (
-        <Comp {...sharedProps}>
+        <Comp {...(sharedProps as any)}>
           {props.children}
         </Comp>
       )
     }
 
     return (
-      <Comp {...sharedProps}>
+      <Comp {...(sharedProps as any)}>
         <div className="relative z-10 flex items-center justify-center gap-2 whitespace-nowrap">
           {props.children}
         </div>

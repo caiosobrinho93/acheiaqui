@@ -16,7 +16,8 @@ import {
   LayoutGrid,
   List,
   SortAsc,
-  Check
+  Check,
+  Loader2
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { PRODUCT_CATEGORIES } from "@/lib/constants"

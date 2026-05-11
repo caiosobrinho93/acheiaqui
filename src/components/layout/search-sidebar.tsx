@@ -43,7 +43,7 @@ export function SearchSidebar({ isOpen, onClose }: SearchSidebarProps) {
         .ilike("name", `%${query}%`)
         .limit(8)
       
-      setResults(data || [])
+      setResults((data as any) || [])
       setLoading(false)
     }
 

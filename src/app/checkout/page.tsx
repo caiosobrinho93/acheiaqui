@@ -89,7 +89,7 @@ export default function CheckoutPage() {
     if (!user) return
     const selectedAddress = addresses.find(a => a.id === selectedAddressId)
     
-    const itemsList = items.map(item => `- ${item.quantity}x ${item.name} (R$ ${(item.promo_price || item.price).toLocaleString('pt-BR')})`).join('%0A')
+    const itemsList = items.map(item => `- ${item.quantity}x ${item.name} (R$ ${item.price.toLocaleString('pt-BR', { minimumFractionDigits: 2 })})`).join('%0A')
     
     const message = `*NOVO PEDIDO - ACHEIAQUI*%0A%0A` +
       `*Cliente:* ${user.email}%0A` +
