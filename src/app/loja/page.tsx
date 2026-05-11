@@ -21,7 +21,6 @@ import {
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { PRODUCT_CATEGORIES } from "@/lib/constants"
-import { motion, AnimatePresence } from "framer-motion"
 
 function SearchResults() {
   const searchParams = useSearchParams()
@@ -169,12 +168,8 @@ function SearchResults() {
               <ChevronDown className={cn("h-4 w-4 transition-transform", isCatOpen && "rotate-180")} />
             </button>
             
-            <AnimatePresence>
-              {isCatOpen && (
-                <motion.div 
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 10 }}
+            {isCatOpen && (
+                <div 
                   className="absolute top-full left-0 right-0 mt-2 p-2 bg-surface border border-white/10 rounded-2xl shadow-2xl z-40 max-h-60 overflow-y-auto scrollbar-hide"
                 >
                   {categories.map((cat) => (
@@ -192,9 +187,8 @@ function SearchResults() {
                       {cat}
                     </button>
                   ))}
-                </motion.div>
+                </div>
               )}
-            </AnimatePresence>
           </div>
         </div>
 
@@ -347,12 +341,8 @@ function SearchResults() {
           </div>
           
           {/* Mobile Cat Dropdown */}
-          <AnimatePresence>
-            {isCatOpen && (
-              <motion.div 
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
+          {isCatOpen && (
+              <div 
                 className="absolute top-full left-0 right-0 mt-2 z-40 bg-surface/95 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] overflow-hidden"
               >
                 <div className="grid grid-cols-2 gap-2 p-4">
@@ -372,9 +362,8 @@ function SearchResults() {
                       </button>
                    ))}
                 </div>
-              </motion.div>
+              </div>
             )}
-          </AnimatePresence>
 
           {/* Quick Stats / Feedback */}
           <div className="flex items-center justify-between px-2">

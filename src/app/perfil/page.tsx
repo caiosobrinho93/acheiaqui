@@ -30,7 +30,6 @@ import {
   ArrowUpRight
 } from "lucide-react"
 import { cn, getLevelInfo } from "@/lib/utils"
-import { motion, AnimatePresence } from "framer-motion"
 import { useWishlist } from "@/lib/store"
 
 function ProfileContent() {
@@ -187,21 +186,19 @@ function ProfileContent() {
                     {profile?.avatar_url ? (
                       <Image src={profile.avatar_url} alt="Avatar" fill className="object-cover" />
                     ) : (
-                      <motion.span initial={{ scale: 0.5, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}>{userInitial}</motion.span>
+                      <span>{userInitial}</span>
                     )}
                   </div>
                 </div>
               </div>
 
-              <motion.div 
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
+              <div 
                 className="absolute -bottom-1 -right-1 h-8 w-8 md:h-12 md:w-12 rounded-xl md:rounded-2xl bg-surface border border-white/10 flex items-center justify-center shadow-2xl"
               >
                 <div className="h-6 w-6 md:h-10 md:w-10 rounded-lg md:rounded-xl bg-primary flex items-center justify-center text-background">
                   <Trophy className="h-3 w-3 md:h-5 md:w-5" />
                 </div>
-              </motion.div>
+              </div>
             </div>
 
             <div className="text-left md:text-center flex flex-col items-start md:items-center flex-1">
@@ -227,17 +224,14 @@ function ProfileContent() {
                  { label: 'Level', value: levelInfo.level, icon: Zap, color: 'text-primary' },
                  { label: 'XP', value: points, icon: Star, color: 'text-white' },
                ].map((stat, i) => (
-                 <motion.div 
+                 <div 
                    key={i}
-                   initial={{ opacity: 0, y: 20 }}
-                   animate={{ opacity: 1, y: 0 }}
-                   transition={{ delay: i * 0.1 }}
                    className="bg-surface/30 backdrop-blur-md border border-white/5 p-4 md:p-6 rounded-2xl md:rounded-3xl group hover:border-primary/20 transition-all flex flex-col items-center md:items-start"
                  >
                     <stat.icon className={cn("h-4 w-4 md:h-6 md:w-6 mb-2 md:mb-4", stat.color)} />
                     <p className="text-[7px] md:text-[10px] font-bold text-text-muted uppercase tracking-widest mb-0.5 md:mb-1">{stat.label}</p>
                     <p className="text-lg md:text-3xl font-bold italic tracking-tighter">{stat.value}</p>
-                 </motion.div>
+                 </div>
                ))}
             </div>
 
@@ -312,14 +306,7 @@ function ProfileContent() {
             ))}
           </div>
 
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={activeTab}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.3 }}
-            >
+            <div>
               {activeTab === "posts" && (
                 orders.length === 0 ? (
                   <div className="flex flex-col items-center justify-center py-24 bg-surface/10 rounded-[32px] border border-dashed border-white/5">
@@ -445,9 +432,9 @@ function ProfileContent() {
 
                    {/* Settings Content Area */}
                    <div className="flex-1 bg-surface/30 backdrop-blur-md border border-white/5 p-8 md:p-12 rounded-[40px]">
-                      <AnimatePresence mode="wait">
+                      <>
                         {settingsSection === 'profile' ? (
-                          <motion.div key="profile-edit" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
+                          <div key="profile-edit">
                             <h2 className="text-3xl font-bold mb-10 uppercase tracking-tighter italic">Editar <span className="text-primary">Perfil</span></h2>
                             
                             <div className="flex flex-col gap-8">
@@ -476,9 +463,9 @@ function ProfileContent() {
                                 {isSaving ? "Sincronizando..." : "Salvar Alterações"}
                               </NeonButton>
                             </div>
-                          </motion.div>
+                          </div>
                         ) : (
-                          <motion.div key="account-settings" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
+                          <div key="account-settings">
                             <h2 className="text-3xl font-bold mb-10 uppercase tracking-tighter italic">Configuração da <span className="text-primary">Conta</span></h2>
                             
                             <div className="flex flex-col gap-6">
@@ -509,14 +496,13 @@ function ProfileContent() {
                                 <button className="text-[10px] font-black text-red-500 hover:underline uppercase tracking-widest">Deletar Minha Conta</button>
                               </div>
                             </div>
-                          </motion.div>
+                          </div>
                         )}
-                      </AnimatePresence>
+                      </>
                    </div>
                 </div>
               )}
-            </motion.div>
-          </AnimatePresence>
+            </div>
         </div>
       </div>
     </main>

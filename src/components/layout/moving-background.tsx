@@ -1,7 +1,6 @@
 "use client"
 
 import { usePathname } from "next/navigation"
-import { motion } from "framer-motion"
 import { useEffect, useState } from "react"
 
 export function MovingBackground() {
@@ -33,31 +32,12 @@ export function MovingBackground() {
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(198,255,0,0.15)_0%,transparent_80%)]" />
       
       {/* 3. Moving Atmospheric Glows */}
-      <motion.div 
-        animate={{
-          x: [0, 200, -100, 0],
-          y: [0, -100, 100, 0],
-          opacity: [0.15, 0.25, 0.15],
-        }}
-        transition={{
-          duration: 30,
-          repeat: Infinity,
-          ease: "easeInOut"
-        }}
+      {/* 3. Static Atmospheric Glows */}
+      <div 
         className="absolute -top-[20%] -left-[10%] w-[80%] h-[80%] bg-primary/20 blur-[180px] rounded-full mix-blend-screen"
       />
 
-      <motion.div 
-        animate={{
-          x: [0, -200, 100, 0],
-          y: [0, 150, -150, 0],
-          opacity: [0.1, 0.2, 0.1],
-        }}
-        transition={{
-          duration: 35,
-          repeat: Infinity,
-          ease: "easeInOut"
-        }}
+      <div 
         className="absolute -bottom-[20%] -right-[10%] w-[70%] h-[70%] bg-primary/20 blur-[200px] rounded-full mix-blend-screen"
       />
 
@@ -73,16 +53,7 @@ export function MovingBackground() {
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0,0,0,0.4)_100%)]" />
 
       {/* 5. Scanning Pulse Line */}
-      <motion.div 
-        initial={{ y: "-100%" }}
-        animate={{ y: "100%" }}
-        transition={{
-          duration: 12,
-          repeat: Infinity,
-          ease: "linear"
-        }}
-        className="absolute inset-x-0 h-px bg-gradient-to-r from-transparent via-primary/5 to-transparent shadow-[0_0_15px_rgba(198,255,0,0.05)]"
-      />
+
     </div>
   )
 }

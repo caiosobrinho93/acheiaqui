@@ -3,7 +3,6 @@
 import { useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { motion, AnimatePresence } from "framer-motion"
 import { 
   Search, 
   ShieldCheck, 
@@ -55,12 +54,7 @@ export default function QuemSomos() {
         {/* Hero Section */}
         <section className="container mx-auto px-6 lg:px-12 mb-32">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-            >
+            <div>
               <div className="flex items-center gap-3 mb-6">
                 <div className="h-px w-12 bg-primary" />
                 <span className="text-xs font-black text-primary uppercase tracking-[0.5em]">O Manifesto</span>
@@ -82,16 +76,10 @@ export default function QuemSomos() {
                     IA-Powered Curation
                  </div>
               </div>
-            </motion.div>
+            </div>
 
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 1 }}
-              className="relative aspect-square"
-            >
-               <div className="absolute inset-0 bg-primary/20 blur-[120px] rounded-full animate-pulse" />
+            <div className="relative aspect-square">
+               <div className="absolute inset-0 bg-primary/20 blur-[120px] rounded-full" />
                <div className="relative h-full w-full rounded-[60px] overflow-hidden border border-white/10 shadow-2xl">
                   <Image 
                     src="/images/headquarters.png" 
@@ -105,7 +93,7 @@ export default function QuemSomos() {
                      <p className="text-2xl font-black italic uppercase tracking-tighter">Cyber City Hub</p>
                   </div>
                </div>
-            </motion.div>
+            </div>
           </div>
         </section>
 
@@ -126,54 +114,46 @@ export default function QuemSomos() {
                       key={idx}
                       onClick={() => setActiveStage(idx)}
                       className={cn(
-                        "group flex items-center gap-6 p-8 rounded-3xl transition-all text-left border",
+                        "group flex items-center gap-6 p-8 rounded-3xl transition-colors text-left border",
                         activeStage === idx 
-                          ? "bg-primary text-background border-primary shadow-neon-soft translate-x-4" 
+                          ? "bg-primary text-background border-primary" 
                           : "bg-white/5 border-white/5 text-text-muted hover:bg-white/10"
                       )}
                     >
-                      <stage.icon className={cn("h-8 w-8 transition-transform group-hover:scale-110", activeStage === idx ? "text-background" : "text-primary")} />
+                      <stage.icon className={cn("h-8 w-8", activeStage === idx ? "text-background" : "text-primary")} />
                       <div>
                         <p className={cn("text-[10px] font-black uppercase tracking-widest mb-1", activeStage === idx ? "text-background/60" : "text-primary/60")}>Fase 0{idx + 1}</p>
                         <h4 className="text-xl font-black uppercase tracking-tighter italic leading-none">{stage.title}</h4>
                       </div>
-                      <ChevronRight className={cn("ml-auto h-5 w-5 transition-transform", activeStage === idx ? "translate-x-0" : "opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0")} />
+                      <ChevronRight className={cn("ml-auto h-5 w-5", activeStage === idx ? "opacity-100" : "opacity-0 group-hover:opacity-100")} />
                     </button>
                   ))}
                </div>
 
                {/* Stage Content */}
                <div className="lg:col-span-8">
-                  <AnimatePresence mode="wait">
-                    <motion.div
-                      key={activeStage}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -20 }}
-                      className="h-full p-12 lg:p-16 rounded-[48px] bg-background border border-white/10 relative overflow-hidden flex flex-col justify-center"
-                    >
-                       <div className="absolute top-0 right-0 p-12 opacity-[0.03]">
-                          <Cpu className="h-64 w-64" />
-                       </div>
-                       
-                       <div className="relative z-10">
-                          <h3 className="text-5xl font-black uppercase italic tracking-tighter mb-8 text-primary">
-                            {stages[activeStage].title}
-                          </h3>
-                          <p className="text-2xl text-text-secondary leading-relaxed mb-12 font-medium max-w-2xl">
-                            {stages[activeStage].description}
-                          </p>
-                          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                             {stages[activeStage].details.map((detail, i) => (
-                               <div key={i} className="flex items-center gap-3 px-6 py-4 rounded-2xl bg-white/5 border border-white/5">
-                                  <Sparkles className="h-4 w-4 text-primary" />
-                                  <span className="text-[10px] font-black uppercase tracking-widest">{detail}</span>
-                               </div>
-                             ))}
-                          </div>
-                       </div>
-                    </motion.div>
-                  </AnimatePresence>
+                  <div className="h-full p-12 lg:p-16 rounded-[48px] bg-background border border-white/10 relative overflow-hidden flex flex-col justify-center">
+                     <div className="absolute top-0 right-0 p-12 opacity-[0.03]">
+                        <Cpu className="h-64 w-64" />
+                     </div>
+                     
+                     <div className="relative z-10">
+                        <h3 className="text-5xl font-black uppercase italic tracking-tighter mb-8 text-primary">
+                          {stages[activeStage].title}
+                        </h3>
+                        <p className="text-2xl text-text-secondary leading-relaxed mb-12 font-medium max-w-2xl">
+                          {stages[activeStage].description}
+                        </p>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                           {stages[activeStage].details.map((detail, i) => (
+                             <div key={i} className="flex items-center gap-3 px-6 py-4 rounded-2xl bg-white/5 border border-white/5">
+                                <Sparkles className="h-4 w-4 text-primary" />
+                                <span className="text-[10px] font-black uppercase tracking-widest">{detail}</span>
+                             </div>
+                           ))}
+                        </div>
+                     </div>
+                  </div>
                </div>
             </div>
           </div>
@@ -182,12 +162,7 @@ export default function QuemSomos() {
         {/* Vision Section with Logistics Image */}
         <section className="container mx-auto px-6 lg:px-12 py-32">
            <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                className="order-2 lg:order-1 relative aspect-video lg:aspect-square"
-              >
+              <div className="order-2 lg:order-1 relative aspect-video lg:aspect-square">
                  <div className="absolute -inset-10 bg-primary/10 blur-[100px] rounded-full" />
                  <div className="relative h-full w-full rounded-[60px] overflow-hidden border border-white/10 shadow-2xl">
                     <Image 
@@ -198,14 +173,9 @@ export default function QuemSomos() {
                     />
                     <div className="absolute inset-0 bg-gradient-to-tr from-background/40 via-transparent to-transparent" />
                  </div>
-              </motion.div>
+              </div>
 
-              <motion.div
-                initial={{ opacity: 0, x: 50 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                className="order-1 lg:order-2"
-              >
+              <div className="order-1 lg:order-2">
                  <h2 className="text-5xl font-black uppercase tracking-tighter italic mb-8">Nossa <span className="text-primary">Visão</span></h2>
                  <div className="space-y-8">
                     <div className="flex gap-6">
@@ -227,7 +197,7 @@ export default function QuemSomos() {
                        </div>
                     </div>
                  </div>
-              </motion.div>
+              </div>
            </div>
         </section>
 
@@ -263,7 +233,7 @@ export default function QuemSomos() {
                  <p className="text-xl text-text-secondary mb-12 max-w-2xl mx-auto font-medium">
                    O futuro do consumo não é sobre quantidade, é sobre curadoria técnica e confiança absoluta.
                  </p>
-                 <Link href="/loja" className="inline-flex h-20 px-16 bg-primary text-background rounded-2xl items-center justify-center font-black uppercase tracking-widest italic hover:scale-105 transition-all shadow-neon-soft">
+                 <Link href="/loja" className="inline-flex h-20 px-16 bg-primary text-background rounded-2xl items-center justify-center font-black uppercase tracking-widest italic hover:opacity-90 transition-opacity shadow-neon-soft">
                    Começar Protocolo
                  </Link>
               </div>

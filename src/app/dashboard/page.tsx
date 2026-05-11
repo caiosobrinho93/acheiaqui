@@ -22,7 +22,6 @@ import {
 } from "lucide-react"
 import Image from "next/image"
 import { toast } from "sonner"
-import { motion, AnimatePresence } from "framer-motion"
 import { cn } from "@/lib/utils"
 
 const ADMIN_EMAIL = "caiojos@gmail.com"
@@ -306,7 +305,7 @@ export default function DashboardPage() {
           <p className="text-3xl font-black italic tracking-tighter">{stat.value}</p>
           <div className="mt-4 flex items-center gap-2">
             <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
-               <motion.div initial={{ width: 0 }} animate={{ width: '70%' }} className={cn("h-full", stat.color)} />
+               <div className={cn("h-full w-[70%]", stat.color)} />
             </div>
           </div>
         </div>
@@ -563,16 +562,12 @@ export default function DashboardPage() {
                 <p className="text-[10px] font-black uppercase tracking-[0.5em] text-primary animate-pulse">Sincronizando Core Systems...</p>
               </div>
             ) : (
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-              >
+              <div>
                 {activeTab === 'stats' && renderStats()}
                 {activeTab === 'products' && renderProducts()}
                 {activeTab === 'orders' && renderOrders()}
                 {activeTab === 'newsletter' && renderEmails()}
-              </motion.div>
+              </div>
             )}
           </div>
         </div>
@@ -581,12 +576,9 @@ export default function DashboardPage() {
         <AnimatePresence>
           {isModalOpen && (
             <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setIsModalOpen(false)} className="fixed inset-0 bg-background/95 backdrop-blur-xl" />
+              <div onClick={() => setIsModalOpen(false)} className="fixed inset-0 bg-background/95 backdrop-blur-xl" />
               
-              <motion.div 
-                initial={{ opacity: 0, scale: 0.95, y: 20 }} 
-                animate={{ opacity: 1, scale: 1, y: 0 }} 
-                exit={{ opacity: 0, scale: 0.95, y: 20 }} 
+              <div 
                 className="relative w-full max-w-4xl gaming-card overflow-hidden z-10 flex flex-col max-h-[90vh]"
               >
                 <div className="absolute top-0 left-0 w-full h-1.5 bg-primary shadow-neon-soft" />
@@ -723,7 +715,7 @@ export default function DashboardPage() {
                     {editingProduct?.id ? 'Atualizar Core' : 'Sincronizar Item'}
                   </NeonButton>
                 </div>
-              </motion.div>
+              </div>
             </div>
           )}
         </AnimatePresence>
@@ -732,12 +724,9 @@ export default function DashboardPage() {
         <AnimatePresence>
           {isBannerModalOpen && (
             <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setIsBannerModalOpen(false)} className="fixed inset-0 bg-background/95 backdrop-blur-xl" />
+              <div onClick={() => setIsBannerModalOpen(false)} className="fixed inset-0 bg-background/95 backdrop-blur-xl" />
               
-              <motion.div 
-                initial={{ opacity: 0, scale: 0.95, y: 20 }} 
-                animate={{ opacity: 1, scale: 1, y: 0 }} 
-                exit={{ opacity: 0, scale: 0.95, y: 20 }} 
+              <div 
                 className="relative w-full max-w-2xl gaming-card overflow-hidden z-10 flex flex-col max-h-[90vh]"
               >
                 <div className="absolute top-0 left-0 w-full h-1.5 bg-primary shadow-neon-soft" />
@@ -808,7 +797,7 @@ export default function DashboardPage() {
                      Salvar Canal
                    </NeonButton>
                 </div>
-              </motion.div>
+              </div>
             </div>
           )}
         </AnimatePresence>

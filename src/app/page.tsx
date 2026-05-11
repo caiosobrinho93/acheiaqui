@@ -32,7 +32,7 @@ import {
   Quote
 } from "lucide-react";
 import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
+
 import { cn } from "@/lib/utils";
 import { PRODUCT_CATEGORIES } from "@/lib/constants";
 
@@ -47,35 +47,42 @@ export default function Home() {
   const router = useRouter();
 
   useEffect(() => {
-    async function fetchFeatured() {
-      const { data } = await supabase
-        .from('products')
-        .select('*')
-        .order('created_at', { ascending: false });
-      
-      if (data) {
-        setProducts(data.filter(p => p.name && p.slug));
-      } else {
-        setProducts([]);
+    async function fetchData() {
+      setLoading(true);
+      try {
+        const [productsRes, categoriesRes, infoRes, testimonialsRes] = await Promise.all([
+          supabase
+            .from('products')
+            .select('id, name, slug, price, promo_price, main_image, category, rating')
+            .not('name', 'is', null)
+            .not('slug', 'is', null)
+            .order('created_at', { ascending: false }),
+          supabase
+            .from('categories')
+            .select('*')
+            .order('created_at', { ascending: true }),
+          supabase
+            .from('info_cards')
+            .select('*')
+            .order('display_order', { ascending: true }),
+          supabase
+            .from('testimonials')
+            .select('*')
+            .eq('is_active', true)
+            .order('created_at', { ascending: false })
+        ]);
+        
+        if (productsRes.data) setProducts(productsRes.data);
+        if (categoriesRes.data) setCategories(categoriesRes.data);
+        if (infoRes.data) setInfoCards(infoRes.data);
+        if (testimonialsRes.data) setHomeTestimonials(testimonialsRes.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false);
       }
-
-      const { data: catData } = await supabase
-        .from('categories')
-        .select('*')
-        .order('created_at', { ascending: true });
-      if (catData) setCategories(catData);
-
-      // Fetch Info Cards
-      const { data: infoData } = await supabase.from('info_cards').select('*').order('display_order', { ascending: true });
-      if (infoData) setInfoCards(infoData);
-
-      // Fetch Testimonials
-      const { data: testData } = await supabase.from('testimonials').select('*').eq('is_active', true).order('created_at', { ascending: false });
-      if (testData) setHomeTestimonials(testData);
-
-      setLoading(false);
     }
-    fetchFeatured();
+    fetchData();
   }, []);
 
   const handleNewsletterSubmit = async (e: React.FormEvent) => {
@@ -244,11 +251,7 @@ export default function Home() {
                 className="object-cover transition-transform duration-[3000ms] group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-gradient-to-r from-background via-background/60 to-transparent p-8 md:p-24 flex flex-col justify-center">
-                 <motion.div
-                   initial={{ opacity: 0, x: -30 }}
-                   whileInView={{ opacity: 1, x: 0 }}
-                   viewport={{ once: true }}
-                 >
+                 <div>
                    <span className="text-primary font-black uppercase tracking-[0.5em] text-xs mb-4 block">Linha de Elite</span>
                    <h3 className="text-6xl md:text-[9rem] font-black text-white tracking-tighter leading-[0.8] mb-8 uppercase italic">
                      SETUP <br /> 
@@ -262,7 +265,7 @@ export default function Home() {
                       Ver Segmento
                     </NeonButton>
                    </Link>
-                 </motion.div>
+                 </div>
               </div>
               
               {/* Technical HUD Overlay */}
@@ -334,11 +337,7 @@ export default function Home() {
 
         <div className="container mx-auto px-6 lg:px-12 relative z-10">
           <div className="flex flex-col md:flex-row items-start md:items-end justify-between mb-12 gap-6">
-            <motion.div
-              initial={{ x: -50, opacity: 0 }}
-              whileInView={{ x: 0, opacity: 1 }}
-              viewport={{ once: true }}
-            >
+            <div>
               <div className="flex items-center gap-3 mb-4">
                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 border border-primary/30">
                     <Zap className="h-6 w-6 text-primary fill-current" />
@@ -349,7 +348,7 @@ export default function Home() {
                 DESCONTÃO <br />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-orange-500 to-red-600">ACHEIAQUI.</span>
               </h2>
-            </motion.div>
+            </div>
             
             <div className="flex items-center gap-4 bg-surface/80 backdrop-blur-xl border border-white/10 px-8 py-4 rounded-xl shadow-xl">
                <div className="h-2 w-2 rounded-full bg-primary animate-pulse" />
@@ -389,14 +388,10 @@ export default function Home() {
                <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
                
                <div className="relative z-10 flex flex-col items-center text-center">
-                  <motion.div 
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    className="inline-flex items-center gap-2 px-6 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-[10px] font-black uppercase tracking-[0.3em] mb-10"
-                  >
+                  <div className="inline-flex items-center gap-2 px-6 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-[10px] font-black uppercase tracking-[0.3em] mb-10">
                     <Sparkles className="h-3 w-3" />
                     Engenharia de Performance
-                  </motion.div>
+                  </div>
                   
                   <h2 className="text-5xl md:text-9xl font-black text-white uppercase tracking-tighter italic leading-none mb-10">
                     SETUP <span className="text-primary">MASTER</span>
@@ -537,11 +532,7 @@ export default function Home() {
                <Zap className="h-64 w-64 text-primary" />
             </div>
 
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              className="flex flex-col items-center gap-8"
-            >
+            <div className="flex flex-col items-center gap-8">
               <div className="h-16 w-16 rounded-3xl bg-primary flex items-center justify-center text-background shadow-neon-soft rotate-12 group-hover:rotate-0 transition-transform duration-500">
                  <Zap className="h-8 w-8 fill-current" />
               </div>
@@ -594,7 +585,7 @@ export default function Home() {
                   {newsletterLoading ? "Sincronizando..." : "Inscrever Agora"}
                 </button>
               </form>
-            </motion.div>
+            </div>
           </div>
         </div>
       </section>

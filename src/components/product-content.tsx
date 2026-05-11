@@ -3,7 +3,6 @@
 import * as React from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { motion, AnimatePresence } from "framer-motion"
 import {
   ShoppingCart,
   CreditCard,
@@ -210,12 +209,8 @@ export function ProductContent({ slug, initialProduct }: { slug: string, initial
   return (
     <div className="relative pb-40">
       {/* Zoom Lightbox */}
-      <AnimatePresence>
-        {isZoomOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+      {isZoomOpen && (
+          <div
             className="fixed inset-0 z-[100] bg-background/95 backdrop-blur-xl flex items-center justify-center p-4 md:p-12 cursor-zoom-out"
             onClick={() => setIsZoomOpen(false)}
           >
@@ -230,9 +225,8 @@ export function ProductContent({ slug, initialProduct }: { slug: string, initial
             <button className="absolute top-8 right-8 h-12 w-12 rounded-full bg-white/10 flex items-center justify-center text-white">
               <Plus className="h-6 w-6 rotate-45" />
             </button>
-          </motion.div>
+          </div>
         )}
-      </AnimatePresence>
 
       {/* 1. Breadcrumbs */}
       <div className="hidden lg:flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.3em] text-text-muted mb-8 md:mb-12">
@@ -257,10 +251,7 @@ export function ProductContent({ slug, initialProduct }: { slug: string, initial
          </div>
          
          <div className="relative z-10 max-w-5xl">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
+            <div
               className="flex flex-col items-center gap-8"
             >
               <div className="flex items-center gap-4">
@@ -277,7 +268,7 @@ export function ProductContent({ slug, initialProduct }: { slug: string, initial
                 <div className="h-1.5 w-32 bg-primary shadow-neon-soft rounded-full" />
                 <span className="text-xs font-black uppercase tracking-[0.6em] text-primary/60 italic">Engenharia de Elite</span>
               </div>
-            </motion.div>
+            </div>
          </div>
       </div>
 
@@ -287,12 +278,8 @@ export function ProductContent({ slug, initialProduct }: { slug: string, initial
           {/* Gallery Main */}
           <div className="relative aspect-[4/3] max-h-[400px] md:max-h-[550px] w-full rounded-3xl md:rounded-[3rem] border border-white/10 overflow-hidden bg-surface group gaming-card">
             <div className="absolute inset-0 bg-grid-tech opacity-10 pointer-events-none" />
-            <AnimatePresence mode="wait">
-              <motion.div
+              <div
                 key={activeMedia === 'video' ? 'video' : activeMedia}
-                initial={{ opacity: 0, scale: 1.1 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
                 className="w-full h-full relative"
               >
                 {activeMedia === 'video' && product.video_url ? (
@@ -314,8 +301,7 @@ export function ProductContent({ slug, initialProduct }: { slug: string, initial
                     />
                   </>
                 )}
-              </motion.div>
-            </AnimatePresence>
+              </div>
 
             {activeMedia !== 'video' && (
               <button
@@ -426,17 +412,15 @@ export function ProductContent({ slug, initialProduct }: { slug: string, initial
                 <button onClick={calculateShipping} className="text-[10px] font-black uppercase tracking-widest text-primary hover:opacity-70 transition-all">Calcular</button>
               </div>
               {shippingResult?.address && (
-                <motion.div
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="flex items-start gap-3 px-4 py-3 rounded-lg bg-primary/5 border border-primary/10"
+                <div
+                  className="flex items-start gap-3 px-4 py-3 rounded-lg bg-primary/5 border border-primary/10 mt-4"
                 >
                   <CheckCircle2 className="h-3 w-3 text-primary mt-0.5 shrink-0" />
                   <div className="flex flex-col gap-0.5">
                     <span className="text-[10px] font-black text-primary uppercase tracking-widest">Entrega Disponível</span>
                     <span className="text-[9px] font-bold text-text-muted uppercase leading-tight">{shippingResult.address}</span>
                   </div>
-                </motion.div>
+                </div>
               )}
             </div>
 

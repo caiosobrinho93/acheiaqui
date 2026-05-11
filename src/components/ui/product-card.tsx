@@ -2,7 +2,6 @@
 
 import Image from "next/image"
 import Link from "next/link"
-import { motion } from "framer-motion"
 import { ShoppingCart, Star, Plus, Eye, Zap, ImageOff, Heart } from "lucide-react"
 import { type Product, toggleWishlist as syncWishlist } from "@/lib/supabase"
 import { useCart, useWishlist } from "@/lib/store"
@@ -36,12 +35,9 @@ export function ProductCard({ product, className }: ProductCardProps) {
     e.preventDefault()
     e.stopPropagation()
     
-    // Toggle locally for instant feedback
     toggleWishlist(product)
-    
     toast.success(isWishlisted ? "Removido dos favoritos" : "Salvo nos favoritos")
 
-    // Sync with DB if logged in
     if (userId) {
       await syncWishlist(userId, product.id)
     }
@@ -66,22 +62,19 @@ export function ProductCard({ product, className }: ProductCardProps) {
 
   return (
     <Link href={`/produto/${product.slug}`} className="block w-full h-full group/card-wrapper">
-      <motion.div 
-        initial={{ opacity: 0, scale: 0.98 }}
-        whileInView={{ opacity: 1, scale: 1 }}
-        viewport={{ once: true }}
+      <div 
         className={cn(
-          "relative flex flex-col premium-card w-full h-full rounded-2xl overflow-hidden transition-all duration-500 bg-surface/30 border border-white/5",
+          "relative flex flex-col premium-card w-full h-full rounded-2xl overflow-hidden transition-colors duration-200 bg-surface/30 border border-white/5",
           isList 
             ? "flex-row min-h-[120px] md:min-h-[160px] items-center hover:bg-surface/50 hover:border-primary/30" 
-            : "hover:translate-y-[-4px] hover:shadow-[0_20px_40px_rgba(0,0,0,0.5),0_0_20px_rgba(198,255,0,0.1)] hover:border-primary/20",
+            : "hover:border-primary/20",
           className
         )}
       >
         {/* Image Container */}
         <div 
           className={cn(
-            "relative overflow-hidden shrink-0 z-10 transition-all duration-500",
+            "relative overflow-hidden shrink-0 z-10",
             isList 
               ? "h-full w-[130px] sm:w-[160px] md:w-[220px]" 
               : "h-[220px] md:h-[280px] w-full"
@@ -93,7 +86,8 @@ export function ProductCard({ product, className }: ProductCardProps) {
               src={imageUrl} 
               alt={product.name} 
               fill 
-              className="object-cover transition-transform duration-700 ease-in-out group-hover/card-wrapper:scale-110"
+              className="object-cover"
+              sizes="(max-width: 768px) 50vw, 25vw"
             />
           ) : (
             <div className="h-full w-full bg-white/5 flex flex-col items-center justify-center text-white/10 gap-2">
@@ -102,20 +96,19 @@ export function ProductCard({ product, className }: ProductCardProps) {
             </div>
           )}
           
-          {/* Subtle Glow Overlay */}
           <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent opacity-60 pointer-events-none" />
           
-          {/* Wishlist Button - Visible by default on mobile, hover on desktop */}
+          {/* Wishlist Button */}
           <div className={cn(
-            "absolute top-3 z-30 lg:opacity-0 lg:group-hover/card-wrapper:opacity-100 transition-opacity duration-300",
+            "absolute top-3 z-30 lg:opacity-0 lg:group-hover/card-wrapper:opacity-100 transition-opacity duration-200",
             isList ? "left-3" : "right-3"
           )}>
             <button 
               onClick={handleToggleWishlist}
               className={cn(
-                "h-9 w-9 rounded-xl flex items-center justify-center transition-all backdrop-blur-md border",
+                "h-9 w-9 rounded-xl flex items-center justify-center transition-colors backdrop-blur-md border",
                 isWishlisted 
-                  ? "bg-primary border-primary text-background shadow-neon-soft" 
+                  ? "bg-primary border-primary text-background" 
                   : "bg-background/40 border-white/10 text-white hover:bg-white/20"
               )}
             >
@@ -126,7 +119,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
 
         {/* Info Container */}
         <div className={cn(
-          "flex flex-col relative z-20 w-full flex-1 transition-all duration-500",
+          "flex flex-col relative z-20 w-full flex-1",
           isList 
             ? "justify-center p-[15px]" 
             : "p-[15px] justify-between bg-gradient-to-b from-surface/60 to-surface border-t border-white/5"
@@ -172,8 +165,8 @@ export function ProductCard({ product, className }: ProductCardProps) {
                <button 
                  onClick={handleAddToCart}
                  className={cn(
-                   "h-12 w-12 rounded-2xl flex items-center justify-center transition-all duration-500 shadow-xl",
-                   "bg-white/5 border border-white/10 text-text-muted hover:bg-primary hover:text-background hover:border-primary hover:shadow-neon-soft"
+                   "h-12 w-12 rounded-2xl flex items-center justify-center transition-colors duration-200 shadow-xl",
+                   "bg-white/5 border border-white/10 text-text-muted hover:bg-primary hover:text-background hover:border-primary"
                  )}
                >
                  <Plus className="h-6 w-6" />
@@ -181,12 +174,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
             </div>
           </div>
         </div>
-
-        {/* Technical Corner Decoration */}
-        <div className="absolute bottom-3 left-3 opacity-0 group-hover/card-wrapper:opacity-20 transition-opacity">
-           <div className="w-3 h-3 border-b-2 border-l-2 border-primary" />
-        </div>
-      </motion.div>
+      </div>
     </Link>
   )
 }

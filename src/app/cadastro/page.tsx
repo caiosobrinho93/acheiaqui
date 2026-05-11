@@ -2,7 +2,6 @@
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
-import { motion } from "framer-motion"
 import { supabase } from "@/lib/supabase"
 import { NeonButton } from "@/components/ui/neon-button"
 import { toast } from "sonner"
@@ -93,11 +92,7 @@ export default function RegisterPage() {
     <main className="min-h-screen bg-background flex items-center justify-center p-6 relative overflow-hidden bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]">
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[600px] bg-primary/10 blur-[120px] rounded-full -z-10" />
       
-      <motion.div 
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="w-full max-w-sm"
-      >
+      <div className="w-full max-w-sm">
         <Link href="/login" className="flex items-center gap-2 text-text-muted hover:text-primary transition-colors mb-12 group w-fit">
           <ArrowLeft className="h-5 w-5 group-hover:-translate-x-1 transition-transform" />
           <span className="text-xs font-semibold uppercase tracking-widest">Já tenho uma conta</span>
@@ -223,7 +218,7 @@ export default function RegisterPage() {
              </div>
           </div>
         </div>
-      </motion.div>
+      </div>
     </main>
   )
 }

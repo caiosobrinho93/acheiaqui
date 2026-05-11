@@ -1,6 +1,5 @@
 "use client"
 
-import { motion } from "framer-motion"
 import { NeonButton } from "../ui/neon-button"
 import { Sparkles } from "lucide-react"
 import Image from "next/image"
@@ -12,9 +11,7 @@ export function Hero() {
         <div className="flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-20 min-h-[600px]">
           
           {/* Main Title Section - "Sem Fronteiras" Style */}
-          <motion.div 
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
+          <div 
             className="flex-1 flex flex-col justify-center text-center lg:text-left z-10"
           >
             <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-primary/5 border border-primary/10 mb-8 w-fit mx-auto lg:mx-0">
@@ -37,13 +34,10 @@ export function Hero() {
                  Explorar Coleção
                </NeonButton>
             </div>
-          </motion.div>
+          </div>
 
           {/* Featured Image - Sneaker Style (Clean, Borderless background) */}
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.8, x: 50 }}
-            animate={{ opacity: 1, scale: 1, x: 0 }}
-            transition={{ type: "spring", stiffness: 50 }}
+          <div 
             className="flex-1 relative aspect-square w-full max-w-[600px] group"
           >
             {/* Background Glow */}
@@ -65,7 +59,7 @@ export function Hero() {
                  <p className="text-2xl font-black text-foreground italic uppercase tracking-tighter">Cyber-Sneak</p>
               </div>
             </div>
-          </motion.div>
+          </div>
         </div>
       </div>
 

@@ -3,7 +3,6 @@
 import * as React from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { motion, AnimatePresence } from "framer-motion"
 import { 
   Trash2, 
   Minus, 
@@ -48,13 +47,11 @@ export default function CartPage() {
       <div className="min-h-screen bg-background">
         <Header />
         <main className="container mx-auto px-4 lg:px-8 py-20 flex flex-col items-center justify-center text-center">
-          <motion.div 
-            initial={{ scale: 0.5, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
+          <div 
             className="h-32 w-32 rounded-full bg-surface border border-white/5 flex items-center justify-center text-text-muted mb-8"
           >
             <ShoppingBag className="h-12 w-12" />
-          </motion.div>
+          </div>
           <h1 className="text-4xl font-bold uppercase tracking-tighter mb-4">Seu carrinho está <span className="text-primary">vazio</span></h1>
           <p className="text-text-secondary mb-10 max-w-md text-lg font-medium">Parece que você ainda não escolheu nenhum dos nossos produtos de elite.</p>
           <Link href="/loja">
@@ -80,14 +77,9 @@ export default function CartPage() {
         <div className="grid grid-cols-1 xl:grid-cols-3 gap-8 lg:gap-12">
           {/* Cart Items */}
           <div className="xl:col-span-2 flex flex-col gap-4 md:gap-6">
-            <AnimatePresence mode="popLayout">
               {items.map((item) => (
-                <motion.div 
+                <div 
                   key={item.id}
-                  layout
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.95 }}
                   className="p-4 md:p-6 rounded-3xl bg-surface border border-white/5 flex items-center gap-4 md:gap-8 group hover:border-primary/20 transition-all shadow-xl relative"
                 >
                   <div className="relative h-20 w-20 md:h-32 md:w-32 rounded-2xl overflow-hidden flex-shrink-0 bg-background border border-white/5 shadow-inner">
@@ -121,9 +113,9 @@ export default function CartPage() {
                   >
                     <Trash2 className="h-4 w-4 md:h-5 md:w-5" />
                   </button>
-                </motion.div>
+                </div>
               ))}
-            </AnimatePresence>
+
 
             {/* Coupons & Extra */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
