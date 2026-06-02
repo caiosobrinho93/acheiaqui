@@ -74,6 +74,9 @@ export default function CheckoutPage() {
     if (user) {
       setUser(user)
       loadAddresses(user.id)
+    } else {
+      toast.error("Faça login para continuar", { description: "Você precisa estar logado para finalizar a compra." })
+      router.push('/login?redirect=/checkout')
     }
   }
 
@@ -92,8 +95,14 @@ export default function CheckoutPage() {
   }
 
   const handleSaveNewAddress = async () => {
-    if (!newAddress.cep || !newAddress.rua || !newAddress.numero || !user) {
-      toast.error("Preencha todos os campos obrigatórios")
+    if (!user) {
+      toast.error("Sessão Expirada", { description: "Por favor, faça login novamente." })
+      router.push('/login?redirect=/checkout')
+      return
+    }
+
+    if (!newAddress.cep || !newAddress.rua || !newAddress.numero) {
+      toast.error("Dados Incompletos", { description: "Preencha pelo menos o CEP, Rua e Número." })
       return
     }
     
