@@ -110,11 +110,11 @@ export default function CheckoutPage() {
     
     const { data, error } = await supabase
       .from('user_addresses')
-      .insert([{
+      .upsert([{
         ...newAddress,
         nome: newAddress.nome || 'Meu Endereço',
         user_id: user.id
-      }])
+      }], { onConflict: 'user_id' })
       .select()
 
     if (!error && data) {
