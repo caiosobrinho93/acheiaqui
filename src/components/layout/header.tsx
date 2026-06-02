@@ -22,10 +22,27 @@ export function Header() {
   const router = useRouter()
   const { items, updateQuantity, removeItem } = useCart()
   const [user, setUser] = useState<any>(null)
+  const [isCartAnimating, setIsCartAnimating] = useState(false)
+  const [prevTotal, setPrevTotal] = useState(0)
   
   const totalItems = items.reduce((acc, item) => acc + item.quantity, 0)
   const subtotal = items.reduce((acc, item) => acc + item.price * item.quantity, 0)
   const isHomePage = pathname === "/"
+
+  const FREE_SHIPPING_THRESHOLD = 300
+  const shippingProgress = Math.min((subtotal / FREE_SHIPPING_THRESHOLD) * 100, 100)
+  const remainingForFreeShipping = Math.max(FREE_SHIPPING_THRESHOLD - subtotal, 0)
+
+  useEffect(() => {
+    if (totalItems > prevTotal) {
+      setIsCartAnimating(true)
+      const timer = setTimeout(() => setIsCartAnimating(false), 300)
+      setPrevTotal(totalItems)
+      return () => clearTimeout(timer)
+    } else if (totalItems !== prevTotal) {
+      setPrevTotal(totalItems)
+    }
+  }, [totalItems, prevTotal])
 
   useLayoutEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 10)
@@ -124,12 +141,19 @@ export function Header() {
             </button>
 
             <button onClick={() => setIsCartSidebarOpen(true)} className="relative group">
-              <div className="h-12 w-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center transition-all group-hover:bg-primary group-hover:text-background active:scale-95">
-                <ShoppingCart className="h-5 w-5" />
+              <div className={cn(
+                "h-12 w-12 rounded-2xl border flex items-center justify-center transition-all active:scale-95",
+                isCartAnimating 
+                  ? "bg-primary text-background border-primary scale-110 shadow-[0_0_20px_rgba(198,255,0,0.5)]" 
+                  : "bg-white/5 border-white/10 group-hover:bg-primary group-hover:text-background"
+              )}>
+                <ShoppingCart className={cn("h-5 w-5 transition-transform", isCartAnimating && "animate-bounce")} />
               </div>
               {totalItems > 0 && (
-                  <span className="absolute -top-2 -right-2 h-6 w-6 bg-primary text-background text-xs font-bold rounded-full flex items-center justify-center border-2 border-background shadow-lg"
-                  >
+                  <span className={cn(
+                    "absolute -top-2 -right-2 h-6 w-6 bg-primary text-background text-xs font-bold rounded-full flex items-center justify-center border-2 border-background shadow-lg transition-transform",
+                    isCartAnimating && "scale-125"
+                  )}>
                     {totalItems}
                   </span>
                 )}
@@ -307,6 +331,36 @@ export function Header() {
               </div>
 
               <div className="flex-1 overflow-y-auto p-6 flex flex-col gap-6">
+                
+                {/* Free Shipping Progress */}
+                {items.length > 0 && (
+                  <div className="flex flex-col gap-2 p-4 bg-white/5 rounded-2xl border border-white/5">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-bold uppercase tracking-wider text-text-muted">
+                        Frete Grátis
+                      </span>
+                      {remainingForFreeShipping > 0 ? (
+                        <span className="text-xs font-black text-primary">
+                          Faltam R$ {remainingForFreeShipping.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+                        </span>
+                      ) : (
+                        <span className="text-xs font-black text-primary flex items-center gap-1">
+                          <Zap className="h-3 w-3 fill-current" />
+                          Conquistado!
+                        </span>
+                      )}
+                    </div>
+                    <div className="h-2 w-full bg-background rounded-full overflow-hidden">
+                      <div 
+                        className="h-full bg-primary transition-all duration-700 ease-out relative"
+                        style={{ width: `${shippingProgress}%` }}
+                      >
+                        <div className="absolute inset-0 bg-white/20 animate-pulse" />
+                      </div>
+                    </div>
+                  </div>
+                )}
+
                 {items.length === 0 ? (
                   <div className="flex flex-col items-center justify-center h-full text-center opacity-50">
                     <ShoppingCart className="h-16 w-16 mb-4" />
