@@ -243,6 +243,7 @@ input, textarea {
 @layer utilities {
   .interactive-scale {
     @apply transition-transform duration-300 hover:scale-[1.02] active:scale-[0.98];
+  }
 }
 
 /* Uiverse Auth Slider */
