@@ -243,5 +243,105 @@ input, textarea {
 @layer utilities {
   .interactive-scale {
     @apply transition-transform duration-300 hover:scale-[1.02] active:scale-[0.98];
-  }
+}
+
+/* Uiverse Auth Slider */
+.uiverse-container {
+  width: 100%;
+  max-width: 384px;
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  color: white;
+  box-shadow: 1.5px 1.5px 3px #0e0e0e, -1.5px -1.5px 3px rgb(95 94 94 / 25%), inset 0px 0px 0px #0e0e0e, inset 0px -0px 0px #5f5e5e;
+  background-color: #121212;
+}
+
+.uiverse-slider {
+  width: 200%;
+  position: relative;
+  transition: transform ease-out 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+}
+
+.uiverse-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  padding: 2.5em 3em;
+  width: 50%;
+}
+
+.uiverse-input-wrapper {
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.uiverse-label {
+  position: absolute;
+  top: 50%;
+  left: 14px;
+  transition: transform ease 0.2s;
+  transform: translate(0%, -50%);
+  font-size: 0.75em;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  user-select: none;
+  pointer-events: none;
+  color: #71717A;
+}
+
+.uiverse-input {
+  width: 100%;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  color: #fff;
+  padding: 1rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border-radius: 12px;
+  transition: box-shadow ease 0.2s;
+  box-shadow: 0px 0px 0px #0e0e0e, 0px 0px 0px rgb(95 94 94 / 25%), inset 1.5px 1.5px 3px #0e0e0e, inset -1.5px -1.5px 3px #5f5e5e;
+}
+
+.uiverse-input:focus,
+.uiverse-input:not(:placeholder-shown) {
+  box-shadow: 0px 0px 0px #0e0e0e, 0px 0px 0px rgb(95 94 94 / 25%), inset 3px 3px 4px #0e0e0e, inset -3px -3px 4px #5f5e5e;
+}
+
+.uiverse-input:focus + .uiverse-label,
+.uiverse-input:not(:placeholder-shown) + .uiverse-label {
+  transform: translate(-150%, -50%);
+}
+
+.uiverse-btn {
+  width: 100%;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  color: var(--primary);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  padding: 1rem;
+  font-size: 0.85rem;
+  border-radius: 12px;
+  transition: box-shadow ease 0.1s;
+  box-shadow: 1.5px 1.5px 3px #0e0e0e, -1.5px -1.5px 3px rgb(95 94 94 / 25%), inset 0px 0px 0px #0e0e0e, inset 0px -0px 0px #5f5e5e;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.uiverse-btn:active,
+.uiverse-btn:disabled {
+  box-shadow: 0px 0px 0px #0e0e0e, 0px 0px 0px rgb(95 94 94 / 25%), inset 3px 3px 4px #0e0e0e, inset -3px -3px 4px #5f5e5e;
+  opacity: 0.7;
 }

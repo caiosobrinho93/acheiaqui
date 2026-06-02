@@ -3,22 +3,35 @@
 import { useState, useEffect, Suspense } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { supabase } from "@/lib/supabase"
-import { NeonButton } from "@/components/ui/neon-button"
 import { toast } from "sonner"
-import { Zap, Mail, Lock, Loader2, ArrowLeft, ShieldCheck } from "lucide-react"
+import { Loader2, ArrowLeft } from "lucide-react"
 import Link from "next/link"
+import { cn } from "@/lib/utils"
 
-function LoginForm() {
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
+function AuthSliderForm() {
+  const [isRegistering, setIsRegistering] = useState(false)
   const [loading, setLoading] = useState(false)
   const router = useRouter()
   const searchParams = useSearchParams()
   const redirectUrl = searchParams.get('redirect') || '/perfil'
 
+  // Login State
+  const [loginEmail, setLoginEmail] = useState("")
+  const [loginPassword, setLoginPassword] = useState("")
+
+  // Register State
+  const [regName, setRegName] = useState("")
+  const [regEmail, setRegEmail] = useState("")
+  const [regPassword, setRegPassword] = useState("")
+  const [regCpf, setRegCpf] = useState("")
+
   useEffect(() => {
     checkSession()
-  }, [])
+    // Auto-switch to register if ?register=true
+    if (searchParams.get('register') === 'true') {
+      setIsRegistering(true)
+    }
+  }, [searchParams])
 
   async function checkSession() {
     const { data: { session } } = await supabase.auth.getSession()
@@ -27,13 +40,27 @@ function LoginForm() {
     }
   }
 
+  const handleCpfChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let value = e.target.value.replace(/\D/g, '')
+    if (value.length > 11) value = value.slice(0, 11)
+    value = value.replace(/(\d{3})(\d)/, '$1.$2')
+    value = value.replace(/(\d{3})(\d)/, '$1.$2')
+    value = value.replace(/(\d{3})(\d{1,2})$/, '$1-$2')
+    setRegCpf(value)
+  }
+
+  const isValidCpf = (cpfStr: string) => {
+    const numbers = cpfStr.replace(/\D/g, '')
+    return numbers.length === 11
+  }
+
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
 
     const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
+      email: loginEmail,
+      password: loginPassword,
     })
 
     if (error) {
@@ -50,95 +77,197 @@ function LoginForm() {
       toast.success("Login Realizado", {
         description: `Bem-vindo de volta, ${data.user?.email?.split('@')[0]}!`
       })
-      
       router.push(redirectUrl)
     }
     setLoading(false)
   }
 
+  const handleRegister = async (e: React.FormEvent) => {
+    e.preventDefault()
+
+    if (!regEmail.includes('@')) {
+      toast.error("E-mail Inválido", { description: "O e-mail precisa conter um '@'." })
+      return
+    }
+
+    if (!isValidCpf(regCpf)) {
+      toast.error("CPF Inválido", { description: "Por favor, insira um CPF válido com 11 dígitos." })
+      return
+    }
+
+    setLoading(true)
+    const generatedUsername = regEmail.split('@')[0].toLowerCase() + Math.floor(Math.random() * 10000).toString()
+
+    const { data, error } = await supabase.auth.signUp({
+      email: regEmail,
+      password: regPassword,
+      options: {
+        data: {
+          full_name: regName,
+          username: generatedUsername,
+          cpf: regCpf.replace(/\D/g, '')
+        },
+        emailRedirectTo: `${window.location.origin}/auth/callback`,
+      },
+    })
+
+    if (error) {
+      if (error.message.includes("already registered") || error.message.includes("already exists")) {
+        toast.error("E-mail já cadastrado", {
+          description: "Este e-mail já está em uso. Tente fazer login!"
+        })
+        setIsRegistering(false) // Switch to login tab
+      } else {
+        toast.error("Erro no Cadastro", {
+          description: error.message
+        })
+      }
+    } else {
+      if (data.session === null) {
+        toast.warning("Quase lá!", {
+          description: "Enviamos um link de confirmação para o seu e-mail. Confirme para acessar sua conta."
+        })
+        setIsRegistering(false) // Switch to login so they can log in after confirming
+      } else {
+        toast.success("Bem-vindo ao AcheiAqui!", {
+          description: "Conta criada e conectada com sucesso."
+        })
+        router.push(redirectUrl)
+      }
+    }
+    setLoading(false)
+  }
+
   return (
-    <main className="min-h-screen bg-background flex items-center justify-center p-6 relative overflow-hidden bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]">
+    <main className="min-h-screen bg-[#0A0A0A] flex flex-col items-center justify-center p-6 relative overflow-hidden bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]">
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[600px] bg-primary/10 blur-[120px] rounded-full -z-10" />
-      
-      <div className="w-full max-w-sm">
-        <Link href="/" className="flex items-center gap-2 text-text-muted hover:text-primary transition-colors mb-12 group w-fit">
-          <ArrowLeft className="h-5 w-5 group-hover:-translate-x-1 transition-transform" />
-          <span className="text-xs font-semibold uppercase tracking-widest">Retornar à Loja</span>
-        </Link>
 
-        <div className="bg-surface border border-white/10 rounded-[2.5rem] p-8 md:p-10 shadow-2xl relative overflow-hidden">
-          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary via-primary/50 to-primary" />
-          
-          <div className="flex flex-col items-center text-center mb-12">
-             <div className="h-20 w-20 rounded-3xl bg-primary flex items-center justify-center text-background mb-8 shadow-neon-soft rotate-3 hover:rotate-0 transition-transform">
-                <Zap className="h-12 w-12 fill-current" />
-             </div>
-             <h1 className="text-5xl font-semibold tracking-tight leading-none mb-4 uppercase">ACESSO <span className="text-primary">MEMBRO</span></h1>
-             <p className="text-text-secondary text-sm font-medium tracking-widest uppercase opacity-60">Sincronize sua estação de compras</p>
-          </div>
+      <Link href="/" className="absolute top-10 left-10 flex items-center gap-2 text-text-muted hover:text-primary transition-colors group z-20">
+        <ArrowLeft className="h-5 w-5 group-hover:-translate-x-1 transition-transform" />
+        <span className="text-xs font-semibold uppercase tracking-widest hidden sm:inline">Retornar à Loja</span>
+      </Link>
 
-          <form onSubmit={handleLogin} className="flex flex-col gap-6">
-             <div className="flex flex-col gap-3">
-                <label className="text-xs font-semibold uppercase tracking-widest text-text-muted ml-1">E-mail</label>
-                <div className="relative">
-                   <Mail className="absolute left-5 top-1/2 -translate-y-1/2 h-5 w-5 text-text-muted" />
-                   <input 
-                    type="email" 
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                    placeholder="seu@email.com"
-                    className="w-full h-16 bg-background border border-white/10 rounded-2xl pl-14 pr-6 text-base font-semibold outline-none focus:border-primary/50 transition-all placeholder:opacity-30"
-                   />
-                </div>
-             </div>
+      <div className="uiverse-container shadow-2xl">
+        <div 
+          className={cn(
+            "uiverse-slider",
+            isRegistering ? "-translate-x-1/2" : "translate-x-0"
+          )}
+        >
+          {/* LOGIN FORM */}
+          <form className="uiverse-form" onSubmit={handleLogin}>
+            <span className="text-4xl font-black uppercase tracking-tighter mb-4">Login</span>
 
-             <div className="flex flex-col gap-3">
-                <label className="text-xs font-semibold uppercase tracking-widest text-text-muted ml-1">Senha</label>
-                <div className="relative">
-                   <Lock className="absolute left-5 top-1/2 -translate-y-1/2 h-5 w-5 text-text-muted" />
-                   <input 
-                    type="password" 
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                    placeholder="••••••••"
-                    className="w-full h-16 bg-background border border-white/10 rounded-2xl pl-14 pr-6 text-base font-semibold outline-none focus:border-primary/50 transition-all placeholder:opacity-30"
-                   />
-                </div>
-             </div>
+            <div className="uiverse-input-wrapper">
+              <input 
+                type="email" 
+                className="uiverse-input" 
+                required 
+                placeholder=" "
+                value={loginEmail}
+                onChange={(e) => setLoginEmail(e.target.value)}
+              />
+              <label className="uiverse-label">E-mail</label>
+            </div>
 
-             <NeonButton 
-               type="submit" 
-               disabled={loading}
-               className="h-16 w-full rounded-2xl mt-4"
-             >
-               {loading ? <Loader2 className="h-6 w-6 animate-spin" /> : "Entrar na Estação"}
-             </NeonButton>
+            <div className="uiverse-input-wrapper">
+              <input 
+                type="password" 
+                className="uiverse-input" 
+                required 
+                placeholder=" "
+                value={loginPassword}
+                onChange={(e) => setLoginPassword(e.target.value)}
+              />
+              <label className="uiverse-label">Password</label>
+            </div>
+
+            <button type="submit" disabled={loading} className="uiverse-btn mt-4">
+              {loading && !isRegistering ? <Loader2 className="h-4 w-4 animate-spin" /> : "Entrar"}
+            </button>
+
+            <span className="text-[10px] text-text-muted uppercase tracking-widest mt-4">
+              Não tem uma conta?{" "}
+              <button type="button" onClick={() => setIsRegistering(true)} className="font-bold text-primary hover:underline underline-offset-4 cursor-pointer ml-1">
+                Criar Conta
+              </button>
+            </span>
           </form>
 
-          <div className="mt-12 pt-8 border-t border-white/5 flex flex-col items-center gap-6">
-              <p className="text-sm font-semibold text-text-muted uppercase tracking-widest text-center">
-                Não tem uma conta?{" "}
-                <Link href="/cadastro" className="text-primary hover:text-accent-gold transition-colors underline underline-offset-4 decoration-primary/30">
-                  Crie a sua aqui
-                </Link>
-              </p>
-              <div className="inline-flex items-center gap-3 px-6 py-2 rounded-full bg-white/5 border border-white/5">
-                 <div className="h-2 w-2 rounded-full bg-primary animate-pulse shadow-neon-soft" />
-                 <span className="text-xs text-text-muted font-medium uppercase tracking-widest">Sistemas de Defesa Ativos</span>
-              </div>
-          </div>
+          {/* REGISTER FORM */}
+          <form className="uiverse-form" onSubmit={handleRegister}>
+            <span className="text-4xl font-black uppercase tracking-tighter mb-2">Cadastro</span>
+
+            <div className="uiverse-input-wrapper">
+              <input 
+                type="text" 
+                className="uiverse-input" 
+                required 
+                placeholder=" "
+                value={regName}
+                onChange={(e) => setRegName(e.target.value)}
+              />
+              <label className="uiverse-label">Nome Completo</label>
+            </div>
+
+            <div className="uiverse-input-wrapper">
+              <input 
+                type="text" 
+                className="uiverse-input" 
+                required 
+                placeholder=" "
+                value={regCpf}
+                onChange={handleCpfChange}
+              />
+              <label className="uiverse-label">CPF</label>
+            </div>
+
+            <div className="uiverse-input-wrapper">
+              <input 
+                type="email" 
+                className="uiverse-input" 
+                required 
+                placeholder=" "
+                value={regEmail}
+                onChange={(e) => setRegEmail(e.target.value)}
+              />
+              <label className="uiverse-label">E-mail</label>
+            </div>
+
+            <div className="uiverse-input-wrapper">
+              <input 
+                type="password" 
+                className="uiverse-input" 
+                required 
+                placeholder=" "
+                value={regPassword}
+                onChange={(e) => setRegPassword(e.target.value)}
+              />
+              <label className="uiverse-label">Password</label>
+            </div>
+
+            <button type="submit" disabled={loading} className="uiverse-btn mt-2">
+              {loading && isRegistering ? <Loader2 className="h-4 w-4 animate-spin" /> : "Criar Conta"}
+            </button>
+
+            <span className="text-[10px] text-text-muted uppercase tracking-widest mt-2">
+              Já tem uma conta?{" "}
+              <button type="button" onClick={() => setIsRegistering(false)} className="font-bold text-primary hover:underline underline-offset-4 cursor-pointer ml-1">
+                Fazer Login
+              </button>
+            </span>
+          </form>
+
         </div>
       </div>
     </main>
   )
 }
 
-export default function LoginPage() {
+export default function AuthPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-background" />}>
-      <LoginForm />
+    <Suspense fallback={<div className="min-h-screen bg-[#0A0A0A]" />}>
+      <AuthSliderForm />
     </Suspense>
   )
 }
