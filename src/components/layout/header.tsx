@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
-import { ShoppingCart, User, Menu, X, Zap, Search, ChevronRight, Plus, Minus, Trash2, Phone, ArrowRight } from "lucide-react"
+import { ShoppingCart, User, Menu, X, Zap, Search, ChevronRight, Plus, Minus, Trash2, Phone, ArrowRight, ShieldCheck, Lock } from "lucide-react"
 import Image from "next/image"
 import { supabase } from "@/lib/supabase"
 import { useState, useEffect, useLayoutEffect } from "react"
@@ -417,6 +417,18 @@ export function Header() {
                   >
                     Finalizar Pedido
                   </Link>
+
+                  <div className="flex items-center justify-center gap-6 mt-6">
+                    <div className="flex flex-col items-center gap-1.5 opacity-80">
+                      <ShieldCheck className="h-5 w-5 text-primary" />
+                      <span className="text-[9px] font-bold uppercase tracking-widest text-text-muted">Compra Segura</span>
+                    </div>
+                    <div className="w-px h-8 bg-white/10" />
+                    <div className="flex flex-col items-center gap-1.5 opacity-80">
+                      <Lock className="h-5 w-5 text-primary" />
+                      <span className="text-[9px] font-bold uppercase tracking-widest text-text-muted">Criptografado</span>
+                    </div>
+                  </div>
                 </div>
               )}
             </div>
