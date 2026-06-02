@@ -5,7 +5,7 @@ import Link from "next/link"
 import { ShoppingCart, Star, Plus, Eye, Zap, ImageOff, Heart } from "lucide-react"
 import { type Product, toggleWishlist as syncWishlist } from "@/lib/supabase"
 import { useCart, useWishlist } from "@/lib/store"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useMemo } from "react"
 import { supabase } from "@/lib/supabase"
 import { toast } from "sonner"
 import { cn } from "@/lib/utils"
@@ -22,6 +22,10 @@ export function ProductCard({ product, className }: ProductCardProps) {
   const isList = className?.includes('flex-row') || className?.includes('list-view')
   
   const isWishlisted = isInWishlist(product.id)
+
+  // Prova Social Determinística (Baseada no ID/Nome para evitar erros de Hydration)
+  const reviewCount = useMemo(() => (product.name.length * 7) % 150 + 15, [product.name]);
+  const rating = useMemo(() => (5.0 - (product.name.length % 3) * 0.1).toFixed(1), [product.name]);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -97,6 +101,15 @@ export function ProductCard({ product, className }: ProductCardProps) {
             </div>
           )}
           
+          {Number(rating) >= 4.8 && reviewCount > 80 && (
+            <div className={cn(
+              "absolute top-3 z-30 bg-primary text-background text-[9px] font-black uppercase px-2 py-1 rounded-sm shadow-[0_0_15px_rgba(198,255,0,0.4)]",
+              isList ? "right-3" : "left-3"
+            )}>
+              Mais Vendido
+            </div>
+          )}
+
           <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent opacity-60 pointer-events-none" />
           
           {/* Wishlist Button */}
@@ -132,7 +145,9 @@ export function ProductCard({ product, className }: ProductCardProps) {
               </span>
               <div className="flex items-center gap-1 text-primary shrink-0">
                 <Star className="h-3 w-3 fill-current" />
-                <span className="text-xs font-black italic">5.0</span>
+                <span className="text-[10px] font-black italic">
+                  {rating} <span className="text-text-muted font-medium ml-0.5">({reviewCount})</span>
+                </span>
               </div>
             </div>
 
