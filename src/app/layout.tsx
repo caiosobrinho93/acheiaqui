@@ -40,11 +40,29 @@ const bebas = Bebas_Neue({
   subsets: ["latin"],
 });
 
+import type { Viewport, Metadata } from "next";
+
+export const viewport: Viewport = {
+  themeColor: "#0D0D0D",
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+};
+
 export const metadata: Metadata = {
   title: "AcheiAqui | Marketplace Premium",
   description: "Marketplace de alta performance com design premium.",
+  manifest: "/manifest.json",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "AcheiAqui",
+  },
+  formatDetection: {
+    telephone: false,
+  },
 };
-
 export default function RootLayout({
   children,
 }: Readonly<{

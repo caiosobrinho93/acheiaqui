@@ -122,8 +122,8 @@ function SearchResults() {
           setHasMore(false)
         }
       }
-    } catch (err) {
-      console.error("Erro ao buscar produtos:", err)
+    } catch (err: any) {
+      console.error("Erro ao buscar produtos:", err?.message || err)
     } finally {
       setLoading(false)
     }
@@ -386,7 +386,7 @@ function SearchResults() {
             ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-[10px]" 
             : "flex flex-col gap-[10px]"
         )}>
-          {loading ? (
+          {loading && products.length === 0 ? (
             Array.from({ length: 8 }).map((_, i) => <ProductCardSkeleton key={i} />)
           ) : products.length > 0 ? (
             products.map((product) => (
@@ -418,7 +418,7 @@ function SearchResults() {
           )}
           {/* Load More Section */}
           {hasMore && products.length > 0 && (
-            <div className="mt-16 flex justify-center">
+            <div className="col-span-full mt-16 flex justify-center">
               <button
                 onClick={() => setPage(prev => prev + 1)}
                 disabled={loading}
@@ -437,7 +437,7 @@ function SearchResults() {
           )}
 
           {!hasMore && products.length > 0 && (
-            <div className="mt-16 text-center">
+            <div className="col-span-full mt-16 text-center">
               <span className="text-xs font-black uppercase tracking-[0.4em] text-text-muted opacity-50 italic">
                 Você chegou ao fim do estoque.
               </span>

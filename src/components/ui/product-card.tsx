@@ -64,7 +64,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
     <Link href={`/produto/${product.slug}`} className="block w-full h-full group/card-wrapper">
       <div 
         className={cn(
-          "relative flex flex-col premium-card w-full h-full rounded-2xl overflow-hidden transition-colors duration-200 bg-surface/30 border border-white/5",
+          "relative flex flex-col premium-card w-full h-full rounded-2xl overflow-hidden transition-colors duration-200 bg-surface/30 border border-white/5 interactive-scale cursor-pointer",
           isList 
             ? "flex-row min-h-[120px] md:min-h-[160px] items-center hover:bg-surface/50 hover:border-primary/30" 
             : "hover:border-primary/20",
@@ -88,6 +88,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
               fill 
               className="object-cover"
               sizes="(max-width: 768px) 50vw, 25vw"
+              unoptimized={true}
             />
           ) : (
             <div className="h-full w-full bg-white/5 flex flex-col items-center justify-center text-white/10 gap-2">
@@ -125,17 +126,19 @@ export function ProductCard({ product, className }: ProductCardProps) {
             : "p-[15px] justify-between bg-gradient-to-b from-surface/60 to-surface border-t border-white/5"
         )}>
           <div className="flex flex-col gap-1">
-            <div className="flex items-center justify-between mb-1">
-              <span className="text-xs font-black text-primary/80 uppercase tracking-widest">{product.category}</span>
-              <div className="flex items-center gap-1 text-primary">
+            <div className="flex items-center justify-between mb-1 gap-2">
+              <span className="text-[10px] font-black text-primary/80 uppercase tracking-widest truncate flex-1 min-w-0" title={product.category || ""}>
+                {product.category}
+              </span>
+              <div className="flex items-center gap-1 text-primary shrink-0">
                 <Star className="h-3 w-3 fill-current" />
                 <span className="text-xs font-black italic">5.0</span>
               </div>
             </div>
 
             <h3 className={cn(
-              "font-black tracking-tight uppercase italic transition-colors",
-              "text-lg",
+              "font-bold tracking-tight uppercase italic transition-colors",
+              "text-base",
               isList ? "line-clamp-1" : "line-clamp-2",
               "group-hover/card-wrapper:text-primary"
             )}

@@ -228,11 +228,11 @@ export default function Home() {
 <div className="absolute inset-0 bg-gradient-to-r from-background via-background/60 to-transparent p-6 md:p-24 flex flex-col justify-center">
                   <div>
                     <span className="text-primary font-black uppercase tracking-[0.5em] text-xs mb-2 md:mb-4 block">Linha de Elite</span>
-                    <h3 className="text-4xl sm:text-5xl md:text-7xl lg:text-[9rem] font-black text-white tracking-tighter leading-[0.8] mb-4 md:mb-8 uppercase italic">
+                    <h3 className="text-3xl sm:text-5xl md:text-7xl lg:text-[8rem] font-black text-white tracking-tighter leading-[0.9] mb-4 md:mb-8 uppercase italic">
                       SETUP <br /> 
                       <span className="text-primary not-italic">MASTER.</span>
                     </h3>
-                    <p className="text-xs md:text-xl text-text-muted font-bold uppercase tracking-widest mb-6 md:mb-10 max-w-xl leading-relaxed italic">
+                    <p className="text-[10px] sm:text-xs md:text-xl text-text-muted font-bold uppercase tracking-widest mb-6 md:mb-10 max-w-xl leading-relaxed italic">
                       A engenharia definitiva para quem busca a <span className="text-white">supremacia digital.</span> Prepare o terreno para a vitória.
                     </p>
                     <Link href="/loja?cat=Setup Master">
