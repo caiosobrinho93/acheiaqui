@@ -46,8 +46,10 @@ export default function CheckoutPage() {
   // States for Payment Processing & Result
   const [isProcessingPayment, setIsProcessingPayment] = useState(false)
   const [redirectCountdown, setRedirectCountdown] = useState(5)
+  const [isMounted, setIsMounted] = useState(false)
 
   useEffect(() => {
+    setIsMounted(true)
     checkUser()
   }, [])
 
@@ -221,6 +223,17 @@ export default function CheckoutPage() {
   const pixDiscount = paymentMethod === 'pix' && step >= 2 ? subtotal * 0.1 : 0
   const finalTotal = subtotal + shipping - pixDiscount
   const totalItems = items.reduce((acc, item) => acc + item.quantity, 0)
+
+  if (!isMounted) {
+    return (
+      <main className="flex min-h-screen flex-col relative bg-[#0A0A0A]">
+        <Header />
+        <div className="flex-1 flex items-center justify-center">
+          <Loader2 className="h-10 w-10 animate-spin text-primary" />
+        </div>
+      </main>
+    )
+  }
 
   return (
     <main className="flex min-h-screen flex-col relative">
