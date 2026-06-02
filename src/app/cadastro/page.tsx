@@ -1,20 +1,22 @@
 "use client"
 
-import { useState } from "react"
-import { useRouter } from "next/navigation"
+import { useState, Suspense } from "react"
+import { useRouter, useSearchParams } from "next/navigation"
 import { supabase } from "@/lib/supabase"
 import { NeonButton } from "@/components/ui/neon-button"
 import { toast } from "sonner"
 import { Zap, Mail, Lock, Loader2, ArrowLeft, UserPlus } from "lucide-react"
 import Link from "next/link"
 
-export default function RegisterPage() {
+function RegisterForm() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [fullName, setFullName] = useState("")
   const [cpf, setCpf] = useState("")
   const [loading, setLoading] = useState(false)
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const redirectUrl = searchParams.get('redirect') || '/perfil'
 
   // CPF Mask
   const handleCpfChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -64,7 +66,7 @@ export default function RegisterPage() {
     })
 
     if (error) {
-      if (error.message.includes("already registered")) {
+      if (error.message.includes("already registered") || error.message.includes("already exists")) {
         toast.error("E-mail já cadastrado", {
           description: "O e-mail digitado já existe. Tente fazer login!"
         })
@@ -74,10 +76,17 @@ export default function RegisterPage() {
         })
       }
     } else {
-      toast.success("Bem-vindo ao Arsenal AcheiAqui!", {
-        description: "Conta criada e conectada com sucesso."
-      })
-      router.push("/perfil")
+      if (data.session === null) {
+        toast.warning("Quase lá!", {
+          description: "Enviamos um link de confirmação para o seu e-mail. Confirme para acessar sua conta."
+        })
+        router.push(`/login?redirect=${encodeURIComponent(redirectUrl)}`)
+      } else {
+        toast.success("Bem-vindo ao AcheiAqui!", {
+          description: "Conta criada e conectada com sucesso."
+        })
+        router.push(redirectUrl)
+      }
     }
     setLoading(false)
   }
@@ -93,7 +102,7 @@ export default function RegisterPage() {
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[600px] bg-primary/10 blur-[120px] rounded-full -z-10" />
       
       <div className="w-full max-w-sm">
-        <Link href="/login" className="flex items-center gap-2 text-text-muted hover:text-primary transition-colors mb-12 group w-fit">
+        <Link href={`/login?redirect=${encodeURIComponent(redirectUrl)}`} className="flex items-center gap-2 text-text-muted hover:text-primary transition-colors mb-12 group w-fit">
           <ArrowLeft className="h-5 w-5 group-hover:-translate-x-1 transition-transform" />
           <span className="text-xs font-semibold uppercase tracking-widest">Já tenho uma conta</span>
         </Link>
@@ -220,5 +229,13 @@ export default function RegisterPage() {
         </div>
       </div>
     </main>
+  )
+}
+
+export default function RegisterPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-background" />}>
+      <RegisterForm />
+    </Suspense>
   )
 }

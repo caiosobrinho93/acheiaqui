@@ -168,7 +168,7 @@ export function Header() {
                   Painel ADM
                 </Link>
               )}
-              <Link href={user ? "/perfil" : "/login"} className="hidden sm:flex h-12 w-12 rounded-2xl bg-white/5 border border-white/10 items-center justify-center hover:bg-white/10 transition-all text-text-muted hover:text-primary overflow-hidden relative group">
+              <Link href={user ? "/perfil" : `/login?redirect=${encodeURIComponent(pathname)}`} className="hidden sm:flex h-12 w-12 rounded-2xl bg-white/5 border border-white/10 items-center justify-center hover:bg-white/10 transition-all text-text-muted hover:text-primary overflow-hidden relative group">
                 {user ? (
                   user.user_metadata?.avatar_url ? (
                     <Image src={user.user_metadata.avatar_url} alt="User Avatar" fill className="object-cover" />
@@ -263,7 +263,7 @@ export function Header() {
 
              {!user && (
                <Link 
-                 href="/login"
+                 href={`/login?redirect=${encodeURIComponent(pathname)}`}
                  onClick={() => setIsMobileMenuOpen(false)}
                  className="mb-10 p-6 rounded-[2.5rem] bg-surface border border-white/10 flex items-center gap-4 group"
                >

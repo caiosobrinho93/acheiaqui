@@ -1,20 +1,20 @@
 "use client"
 
-import { useState, useEffect } from "react"
-import { useRouter } from "next/navigation"
+import { useState, useEffect, Suspense } from "react"
+import { useRouter, useSearchParams } from "next/navigation"
 import { supabase } from "@/lib/supabase"
 import { NeonButton } from "@/components/ui/neon-button"
 import { toast } from "sonner"
 import { Zap, Mail, Lock, Loader2, ArrowLeft, ShieldCheck } from "lucide-react"
 import Link from "next/link"
 
-const ADMIN_EMAIL = "caiojos@gmail.com"
-
-export default function LoginPage() {
+function LoginForm() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [loading, setLoading] = useState(false)
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const redirectUrl = searchParams.get('redirect') || '/perfil'
 
   useEffect(() => {
     checkSession()
@@ -23,7 +23,7 @@ export default function LoginPage() {
   async function checkSession() {
     const { data: { session } } = await supabase.auth.getSession()
     if (session?.user) {
-      router.push("/perfil")
+      router.push(redirectUrl)
     }
   }
 
@@ -37,15 +37,21 @@ export default function LoginPage() {
     })
 
     if (error) {
-      toast.error("Erro no Acesso", {
-        description: "Verifique suas credenciais e tente novamente."
-      })
+      if (error.message.includes("Email not confirmed") || error.message.includes("invalid credentials")) {
+        toast.error("Erro no Acesso", {
+          description: "Credenciais inválidas ou e-mail ainda não confirmado. Verifique sua caixa de entrada se acabou de se cadastrar."
+        })
+      } else {
+        toast.error("Erro no Acesso", {
+          description: "Verifique suas credenciais e tente novamente."
+        })
+      }
     } else {
       toast.success("Login Realizado", {
-        description: `Bem-vindo, ${data.user?.email?.split('@')[0]}.`
+        description: `Bem-vindo de volta, ${data.user?.email?.split('@')[0]}!`
       })
       
-      router.push("/perfil")
+      router.push(redirectUrl)
     }
     setLoading(false)
   }
@@ -126,5 +132,13 @@ export default function LoginPage() {
         </div>
       </div>
     </main>
+  )
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-background" />}>
+      <LoginForm />
+    </Suspense>
   )
 }
