@@ -14,7 +14,7 @@
   --popover: #161616;
   --popover-foreground: #F5F5F5;
   
-  --primary: #C6FF00; /* Flash Green */
+  --primary: #E8DCC2; /* Quiet Luxury Champagne/Gold */
   --primary-foreground: #0A0A0A;
   
   --secondary: #1F1F1F;
@@ -31,7 +31,7 @@
   
   --border: rgba(255, 255, 255, 0.08);
   --input: rgba(255, 255, 255, 0.08);
-  --ring: #C6FF00;
+  --ring: #E8DCC2;
   --radius: 1.5rem;
   
   /* Custom Marketplace Variables */
@@ -88,6 +88,7 @@ input, textarea {
   --color-warning: var(--warning);
 
   --font-sans: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-playfair), ui-serif, Georgia, serif;
   --font-heading: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
 
   --radius-lg: var(--radius);
@@ -97,8 +98,8 @@ input, textarea {
   --radius-button: 12px;
   --radius-input: 12px;
 
-  --shadow-neon-soft: 0 0 20px rgba(198,255,0,0.15);
-  --shadow-neon-strong: 0 0 40px rgba(198,255,0,0.25);
+  --shadow-neon-soft: 0 0 30px rgba(232, 220, 194, 0.08);
+  --shadow-neon-strong: 0 0 50px rgba(232, 220, 194, 0.15), 0 0 100px rgba(232, 220, 194, 0.05);
   --shadow-glass: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
 
   --animate-marquee: marquee 50s linear infinite;

@@ -136,7 +136,7 @@ function SearchResults() {
   return (
     <div className="flex flex-col lg:flex-row gap-12 pt-8">
       {/* Sidebar Filters */}
-      <aside className="hidden lg:flex flex-col w-72 shrink-0 gap-6">
+      <aside className="hidden lg:flex flex-col w-72 shrink-0 gap-6 sticky top-32 max-h-[calc(100vh-8rem)] overflow-y-auto pb-8 scrollbar-hide">
         <div className="flex items-center justify-between p-6 rounded-3xl bg-surface border border-white/5">
           <h3 className="text-lg font-bold uppercase tracking-tight flex items-center gap-3">
             <SlidersHorizontal className="h-5 w-5 text-primary" />

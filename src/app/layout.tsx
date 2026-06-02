@@ -4,7 +4,8 @@ import {
   Space_Grotesk, 
   Outfit, 
   Syne, 
-  Bebas_Neue 
+  Bebas_Neue,
+  Playfair_Display
 } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
@@ -38,6 +39,12 @@ const bebas = Bebas_Neue({
   variable: "--font-bebas",
   weight: "400",
   subsets: ["latin"],
+});
+
+const playfair = Playfair_Display({
+  variable: "--font-playfair",
+  subsets: ["latin"],
+  style: ["normal", "italic"],
 });
 
 import type { Viewport, Metadata } from "next";
@@ -77,7 +84,8 @@ export default function RootLayout({
         spaceGrotesk.variable, 
         outfit.variable, 
         syne.variable, 
-        bebas.variable
+        bebas.variable,
+        playfair.variable
       )}
     >
       <body className="min-h-screen bg-background text-foreground flex flex-col relative">

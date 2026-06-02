@@ -135,7 +135,7 @@ export default function Home() {
         <div className="container mx-auto px-6 mb-10 flex items-center justify-between">
            <div className="flex items-center gap-4">
               <div className="h-8 w-1.5 bg-primary rounded-full shadow-[0_0_15px_rgba(198,255,0,0.5)]" />
-              <h3 className="text-sm font-bold uppercase tracking-[0.4em] text-foreground italic">Categorias <span className="text-primary">Premium</span></h3>
+              <h3 className="text-xl md:text-2xl font-serif tracking-wide text-foreground">Categorias <span className="text-primary italic">Premium</span></h3>
            </div>
            <div className="h-px flex-1 mx-8 bg-gradient-to-r from-primary/30 via-primary/5 to-transparent" />
         </div>
@@ -228,9 +228,9 @@ export default function Home() {
 <div className="absolute inset-0 bg-gradient-to-r from-background via-background/60 to-transparent p-6 md:p-24 flex flex-col justify-center">
                   <div>
                     <span className="text-primary font-black uppercase tracking-[0.5em] text-xs mb-2 md:mb-4 block">Linha de Elite</span>
-                    <h3 className="text-3xl sm:text-5xl md:text-7xl lg:text-[8rem] font-black text-white tracking-tighter leading-[0.9] mb-4 md:mb-8 uppercase italic">
-                      SETUP <br /> 
-                      <span className="text-primary not-italic">MASTER.</span>
+                    <h3 className="text-4xl sm:text-6xl md:text-8xl lg:text-[9rem] font-serif text-white tracking-tight leading-[0.9] mb-4 md:mb-8 drop-shadow-2xl">
+                      Setup <br /> 
+                      <span className="text-primary italic">Master.</span>
                     </h3>
                     <p className="text-[10px] sm:text-xs md:text-xl text-text-muted font-bold uppercase tracking-widest mb-6 md:mb-10 max-w-xl leading-relaxed italic">
                       A engenharia definitiva para quem busca a <span className="text-white">supremacia digital.</span> Prepare o terreno para a vitória.
@@ -266,9 +266,9 @@ export default function Home() {
                  <Star className="h-5 w-5 text-primary fill-current" />
                  <span className="text-sm font-medium tracking-widest text-primary uppercase">Tendências</span>
               </div>
-              <h2 className="text-5xl md:text-8xl font-semibold tracking-tight leading-none">
+              <h3 className="text-2xl md:text-4xl font-serif tracking-wide text-foreground">
                 MAIS <span className="text-primary">PROCURADOS.</span>
-              </h2>
+              </h3>
             </div>
             <Link href="/loja?sort=recent" className="hidden md:flex items-center gap-3 text-sm font-medium tracking-wide text-text-muted hover:text-primary transition-all">
               Ver Todos <ArrowRight className="h-5 w-5" />

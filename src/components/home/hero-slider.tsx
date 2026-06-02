@@ -8,21 +8,21 @@ import { NeonButton } from "../ui/neon-button"
 
 const STATIC_BANNERS = [
   {
-    title: "PRO <span class='text-primary'>GAMING</span>",
+    title: "Pro <span class='text-primary font-serif italic'>Gaming</span>",
     description: "A engenharia definitiva para quem busca a supremacia digital.",
     image_url: "/images/banners/gamer-banner.png",
     link_url: "/loja?cat=Setup Master",
     id: "1"
   },
   {
-    title: "TECH <span class='text-primary'>HOME</span>",
+    title: "Tech <span class='text-primary font-serif italic'>Home</span>",
     description: "O futuro da automação e eletrodomésticos de elite para sua casa.",
     image_url: "/images/banners/eletrodomesticos-banner.png",
     link_url: "/loja?cat=Tech Home",
     id: "2"
   },
   {
-    title: "HOME <span class='text-primary'>LUXURY</span>",
+    title: "Home <span class='text-primary font-serif italic'>Luxury</span>",
     description: "Conforto e sofisticação em cada detalhe da sua Cama, Mesa e Banho.",
     image_url: "/images/banners/cama-mesa-banho-banner.png",
     link_url: "/loja?cat=Home Luxury",
@@ -71,7 +71,7 @@ export function HeroSlider() {
       <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent flex flex-col justify-end md:justify-center px-6 lg:px-24 pb-20 md:pb-0 z-10">
         <div className="max-w-4xl">
           <h1
-            className="text-4xl md:text-7xl font-bold text-white uppercase tracking-tighter italic leading-none mb-4"
+            className="text-4xl md:text-7xl font-serif text-white tracking-tight leading-none mb-4 drop-shadow-2xl"
             dangerouslySetInnerHTML={{ __html: currentBanner.title }}
           />
           <p className="text-sm md:text-lg text-text-secondary font-bold mb-8 max-w-xl opacity-90">
